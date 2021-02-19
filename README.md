@@ -1,9 +1,14 @@
 COMP30830 - 'Software Engineering', Group 21
 
 Group members:
+
 Tom Walsh
+
 Henry Lewis
+
 Danning Zhan
+
+_______________________
 
 'Dublin Bikes'
 
