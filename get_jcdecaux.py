@@ -2,6 +2,7 @@ import json
 import os
 import requests
 import time
+import datetime
 
 # Get api params from JSON file
 with open('JCDecaux_key.json') as f:
@@ -10,24 +11,28 @@ with open('JCDecaux_key.json') as f:
 def main():
   # Run infinite loop
   while True:
-    # Get API data
-    r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
+    
+    # Check if current time is within dublin bikes opening hours
+    if (datetime.datetime.now().time() <= datetime.time(00,30) or datetime.datetime.now().time() >= datetime.time(5)):
+      
+      # Get API data
+      r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
+      
+      # Check status code
+      if (r.status_code == 200):
+        # Handle for success
+        store(json.loads(r.text))
+      elif (r.status_code == 403):
+        # Handle for bad parameters error
+        print("API parameter error")
+      else:
+        # Handle for all other errors.
+        print("Error")
 
-    # Check status code
-    if (r.status_code == 200):
-      # Handle for success
-      store(json.loads(r.text))
-    elif (r.status_code == 403):
-      # Handle for bad parameters error
-      print("API parameter error")
-    else:
-      # Handle for all other errors.
-      print("Error")
+    # Sleep for 5 minutes
+    time.sleep(5*60)
 
-    # Sleep for 2 minutes
-    time.sleep(2*60)
-
-def store():
+def store(data):
   pass
 
 main()
