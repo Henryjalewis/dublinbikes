@@ -41,7 +41,6 @@ def write_to_db(engine, table , data):
 def main():
     r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
 
-    # Run infinite loop
     # create the engine outside the loop so only create the table once
     engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(   host=db.host,
                                                                                                         password=db.password,
@@ -65,6 +64,8 @@ def main():
       write_to_db(engine,stations, data)
     except:
         pass
+
+    # Run infinite loop
     while True:
       
       # Check if current time is within dublin bikes opening hours
