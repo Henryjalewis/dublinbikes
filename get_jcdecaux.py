@@ -22,7 +22,7 @@ def write_to_file(text):
     f.write(text)
 
 # Function which writes API data to hosted MYSQL database
-def write_to_db(table = stations, data):
+def write_to_db(table = available, data):
 
     # pull the data from the databases
     def get_stations(obj):
@@ -44,9 +44,12 @@ def write_to_db(table = stations, data):
     engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format( host = db.host,
                                                                                                         password = db.password,
                                                                                                         endpoint = db.endpoint,
-                                                                                                        db_name = db.name), echo=True)
-    # get the values from the api
-    value = list(map(get_stations, data))
+    if (table == "available"):                                                                                                    db_name = db.name), echo=True)
+        # get the values from the api
+        value = list(map(get_available, data))
+    elif ( table == "stations"):\
+        value = list(map(get_stations, data))
+
     ins = table.insert().values(value)
     engine.execute(ins)
 
