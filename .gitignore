@@ -1,2 +1,4 @@
 JCDecaux_key.json
+data/
+.idea
 db.py
