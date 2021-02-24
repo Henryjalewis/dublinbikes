@@ -3,13 +3,15 @@ import requests
 import time
 import datetime
 import os
-import db
+#import db
 import db_control
-from sqlalchemy import Table, Column, Integer, Float, String, MetaData, DateTime
 from sqlalchemy import create_engine
+=======
+
+>>>>>>> 925315230a5bd520ca27d12995d5c7c29b5ed7fd
 # Get api params from JSON file
-# with open('JCDecaux_key.json') as f:
-#   JCDecaux_key = json.load(f)
+with open('JCDecaux_key.json') as f:
+   JCDecaux_key = json.load(f)
 
 # Function which takes API text data as input and writes to new file in 'data' directory
 def write_to_file(text):
@@ -40,8 +42,7 @@ def write_to_db(engine, table , data):
 
 def main():
 
-  api_key = "718e4db63a761ae79f8bf871a5c27fec6dfa9588"
-  url = "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey={}".format(api_key)
+  url = "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey={}".format(db.api_key)
 
   r = requests.get(url)
 # Run infinite loop
@@ -74,9 +75,7 @@ def main():
     if (datetime.datetime.now().time() <= datetime.time(00,30) or datetime.datetime.now().time() >= datetime.time(5)):
       
       # Get API data
-      #r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
-
-      r = requests.get(url)
+      r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
 
       # Check status code
       if (r.status_code == 200):
