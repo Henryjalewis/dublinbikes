@@ -1,0 +1,4 @@
+host = ""
+password = ""
+endpoint = ""
+name = ""

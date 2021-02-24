@@ -4,6 +4,7 @@ import requests
 import time
 import datetime
 import os
+import db
 
 # Get api params from JSON file
 with open('JCDecaux_key.json') as f:
@@ -21,8 +22,34 @@ def write_to_file(text):
     f.write(text)
 
 # Function which writes API data to hosted MYSQL database
-def write_to_db(data):
-  pass
+def write_to_db(table = stations, data):
+
+    # pull the data from the databases
+    def get_stations(obj):
+      return {"number": obj["number"],
+              "name": obj["name"],
+              "address": obj["address"],
+              "pos_lat": obj["position"]["lat"],
+              "pos_long": obj["position"]["lng"],
+              "bike_stands": obj["bike_stands"]}
+
+    def get_available(obj):
+      return {"number": obj["number"],
+              "bike_stands": obj["bike_stands"],
+              "available_bike_stands": obj["available_bike_stands"],
+              "available_bikes": obj["available_bikes"],
+              "last_update": datetime.datetime.fromtimestamp(int(obj["last_update"] / 1e3))}
+
+    # create engine for sql
+    engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format( host = db.host,
+                                                                                                        password = db.password,
+                                                                                                        endpoint = db.endpoint,
+                                                                                                        db_name = db.name), echo=True)
+    # get the values from the api
+    value = list(map(get_stations, data))
+    ins = table.insert().values(value)
+    engine.execute(ins)
+
 
 def main():
   # Run infinite loop
@@ -39,7 +66,9 @@ def main():
       # Check status code
       if (r.status_code == 200):
         # Handle for success
+        # writes to local
         write_to_file(r.text)
+        # writes to the database
         write_to_db(json.loads(r.text))
       elif (r.status_code == 403):
         # Handle for bad parameters error
@@ -51,21 +80,6 @@ def main():
     # Sleep for 5 minutes
     time.sleep(5*60)
 
-#
-def get_stations(obj):
-  return {"number": obj["number"],
-          "name": obj["name"],
-          "address": obj["address"],
-          "pos_lat": obj["position"]["lat"],
-          "pos_long": obj["position"]["lng"],
-          "bike_stands": obj["bike_stands"]}
-
-def get_available(obj):
-  return {"number": obj["number"],
-          "bike_stands": obj["bike_stands"],
-          "available_bike_stands": obj["available_bike_stands"],
-          "available_bikes": obj["available_bikes"],
-          "last_update": datetime.datetime.fromtimestamp(int(obj["last_update"] / 1e3))}
 
 
 main()
