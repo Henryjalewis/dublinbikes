@@ -3,7 +3,6 @@ import os
 import requests
 import time
 import datetime
-import os
 
 # Get api params from JSON file
 with open('JCDecaux_key.json') as f:
