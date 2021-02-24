@@ -9,6 +9,8 @@ with open('JCDecaux_key.json') as f:
 
 def main():
   # Run infinite loop
+
+
   while True:
     # Get API data
     r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
@@ -29,5 +31,22 @@ def main():
 
 def store():
   pass
+
+#
+def get_stations(obj):
+  return {"number": obj["number"],
+          "name": obj["name"],
+          "address": obj["address"],
+          "pos_lat": obj["position"]["lat"],
+          "pos_long": obj["position"]["lng"],
+          "bike_stands": obj["bike_stands"]}
+
+def get_available(obj):
+  return {"number": obj["number"],
+          "bike_stands": obj["bike_stands"],
+          "available_bike_stands": obj["available_bike_stands"],
+          "available_bikes": obj["available_bikes"],
+          "last_update": datetime.datetime.fromtimestamp(int(obj["last_update"] / 1e3))}
+
 
 main()
