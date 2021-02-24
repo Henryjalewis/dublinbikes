@@ -3,7 +3,7 @@ import requests
 import time
 import datetime
 import os
-#import db
+import db
 import db_control
 from sqlalchemy import create_engine
 =======
@@ -41,11 +41,9 @@ def write_to_db(engine, table , data):
 
 
 def main():
+    r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
 
-  url = "https://api.jcdecaux.com/vls/v1/stations?contract=dublin&apiKey={}".format(db.api_key)
-
-  r = requests.get(url)
-# Run infinite loop
+    # Run infinite loop
     # create the engine outside the loop so only create the table once
   engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(   host=db.host,
                                                                                                         password=db.password,
