@@ -13,7 +13,7 @@ with open('JCDecaux_key.json') as f:
 def write_to_file(text):
   # Create 'data' directory if not already exists
   try:
-    os.stat(os.path.dirname("data"))
+    os.stat(os.path.dirname("data/"))
   except:
     os.mkdir("data")
   # Write each API call to its own file in 'data' directory
