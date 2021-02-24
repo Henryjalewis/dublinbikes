@@ -2,35 +2,54 @@ import json
 import os
 import requests
 import time
+import datetime
+import os
 
 # Get api params from JSON file
 with open('JCDecaux_key.json') as f:
   JCDecaux_key = json.load(f)
+
+# Function which takes API text data as input and writes to new file in 'data' directory
+def write_to_file(text):
+  # Create 'data' directory if not already exists
+  try:
+    os.stat(os.path.dirname("data"))
+  except:
+    os.mkdir("data")
+  # Write each API call to its own file in 'data' directory
+  with open("data/bikes_{}".format(time.time()).replace(" ", "_"), "w+") as f:
+    f.write(text)
+
+# Function which writes API data to hosted MYSQL database
+def write_to_db(data):
+  pass
 
 def main():
   # Run infinite loop
 
 
   while True:
-    # Get API data
-    r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
+    
+    # Check if current time is within dublin bikes opening hours
+    if (datetime.datetime.now().time() <= datetime.time(00,30) or datetime.datetime.now().time() >= datetime.time(5)):
+      
+      # Get API data
+      r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
+      
+      # Check status code
+      if (r.status_code == 200):
+        # Handle for success
+        write_to_file(r.text)
+        write_to_db(json.loads(r.text))
+      elif (r.status_code == 403):
+        # Handle for bad parameters error
+        print("API parameter error")
+      else:
+        # Handle for all other errors.
+        print("Error")
 
-    # Check status code
-    if (r.status_code == 200):
-      # Handle for success
-      store(json.loads(r.text))
-    elif (r.status_code == 403):
-      # Handle for bad parameters error
-      print("API parameter error")
-    else:
-      # Handle for all other errors.
-      print("Error")
-
-    # Sleep for 2 minutes
-    time.sleep(2*60)
-
-def store():
-  pass
+    # Sleep for 5 minutes
+    time.sleep(5*60)
 
 #
 def get_stations(obj):
