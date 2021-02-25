@@ -1,5 +1,6 @@
 from sqlalchemy import Table, Column, Integer, Float, String, MetaData, DateTime
 import datetime
+
 #create metaData
 meta = MetaData()
 
@@ -13,7 +14,7 @@ def create_stations(engine):
         Column("pos_lat", Float),
         Column("pos_long", Float),
         Column("bike_stands", Integer))
-    # commits to sql
+    # if does not exist create
     if not engine.dialect.has_table(engine, "stations"):
         meta.create_all(engine)
     # return the variable
@@ -23,19 +24,17 @@ def create_available(engine):
     available = Table(
         "available", meta,
         Column("number", Integer),
-        Column("bike_stands", Integer),
         Column("available_bike_stands", Integer),
         Column("available_bikes", Integer),
         Column("last_update", Integer))
 
-    # create the table in sql
     # if does not exist create
     if not engine.dialect.has_table(engine, "available"):
         meta.create_all(engine)
 
     return available
 
-# pull the data from the data from api
+# pull the stations data from the api
 def get_stations(obj):
   return {"number": obj["number"],
           "name": obj["name"],
@@ -44,9 +43,9 @@ def get_stations(obj):
           "pos_long": obj["position"]["lng"],
           "bike_stands": obj["bike_stands"]}
 
+# pull the availability data from the api
 def get_available(obj):
   return {"number": obj["number"],
-          "bike_stands": obj["bike_stands"],
           "available_bike_stands": obj["available_bike_stands"],
           "available_bikes": obj["available_bikes"],
           "last_update": obj["last_update"]}
