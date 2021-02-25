@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, Float, String, MetaData, DateTime
+from sqlalchemy import Table, Column, Integer, BigInteger, Float, String, MetaData, DateTime
 import datetime
 
 #create metaData
@@ -26,7 +26,7 @@ def create_available(engine):
         Column("number", Integer),
         Column("available_bike_stands", Integer),
         Column("available_bikes", Integer),
-        Column("last_update", Integer))
+        Column("last_update", BigInteger()))
 
     # if does not exist create
     if not engine.dialect.has_table(engine, "available"):
