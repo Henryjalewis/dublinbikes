@@ -26,11 +26,11 @@ def create_available(engine):
         Column("bike_stands", Integer),
         Column("available_bike_stands", Integer),
         Column("available_bikes", Integer),
-        Column("last_update", DateTime))
+        Column("last_update", Integer))
 
     # create the table in sql
     # if does not exist create
-    if not engine.dialect.has_table(engine, "stations"):
+    if not engine.dialect.has_table(engine, "available"):
         meta.create_all(engine)
 
     return available
@@ -49,5 +49,5 @@ def get_available(obj):
           "bike_stands": obj["bike_stands"],
           "available_bike_stands": obj["available_bike_stands"],
           "available_bikes": obj["available_bikes"],
-          "last_update": datetime.datetime.fromtimestamp(int(obj["last_update"] / 1e3))}
+          "last_update": obj["last_update"]}
 
