@@ -31,7 +31,7 @@ def write_to_db(engine, table , data):
     if table.name == "stations":
         value = list(map(db_control.get_stations, data))
     elif table.name == "available":
-        # get the values from the api
+        # get the values from the API
         value = list(map(db_control.get_available, data))
 
     ins = table.insert().values(value)
@@ -39,6 +39,7 @@ def write_to_db(engine, table , data):
 
 
 def main():
+    # make request to API
     r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
 
     # create the engine outside the loop so only create the table once
@@ -48,20 +49,14 @@ def main():
                                                                                                         db_name=db.name),
                                                                                                         echo=True)
 
-    # check for existence of table before creation
-    meta = db_control.meta
-
-        # create table outside of the while loop
+    # create table outside of the while loop
     stations = db_control.create_stations(engine)
-        # create table outside of the while loop
+    # create table outside of the while loop
     available = db_control.create_available(engine)
-    # else:
-    #     available = meta.tables["bikes.available"]
 
-    data = r.json()
-      #only enter into stations once
+    # only enter into stations once
     try:
-      write_to_db(engine,stations, data)
+      write_to_db(engine, stations, r.json())
     except:
         pass
 
@@ -76,9 +71,7 @@ def main():
 
         # Check status code
         if (r.status_code == 200):
-          # Handle for success
-          data = r.json() # pulls out json
-
+          
           # writes to the database
           write_to_db(engine, available, r.json())
 
