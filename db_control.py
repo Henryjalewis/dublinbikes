@@ -41,11 +41,11 @@ def create_weather(engine):
         Column("temp", Float),
         Column("type", String(128)),
         Column("Wind Speed", Float),
-        Column("pressure", Flaot),
+        Column("pressure", Float),
         Column("visibility", Float))
 
     # if does not exist create
-    if not engine.dialect.has_table(engine, "available"):
+    if not engine.dialect.has_table(engine, "weather"):
         meta.create_all(engine)
 
     return weather
@@ -69,10 +69,11 @@ def get_available(obj):
 
 # get the weather data
 def get_conditions(obj):
+    print(obj)
     current = obj["main"]
-    return {"hum": current["humidity"],
+    return {"humidity": current["humidity"],
             "temp": current["temp"],
-            "weather": (obj["weather"])[0]["main"],
-            "wind_speed": (obj["wind"])["speed"],
+            "type": (obj["weather"])[0]["main"],
+            "Wind Speed": (obj["wind"])["speed"],
             "pressure": current["pressure"],
             "visibility": obj["visibility"]}
