@@ -34,6 +34,22 @@ def create_available(engine):
 
     return available
 
+def create_weather(engine):
+    weather = Table(
+        "weather", meta,
+        Column("humidity", Float),
+        Column("temp", Float),
+        Column("type", String(128)),
+        Column("Wind Speed", Float),
+        Column("pressure", Flaot),
+        Column("visibility", Float))
+
+    # if does not exist create
+    if not engine.dialect.has_table(engine, "available"):
+        meta.create_all(engine)
+
+    return weather
+
 # pull the stations data from the api
 def get_stations(obj):
   return {"number": obj["number"],
@@ -50,3 +66,13 @@ def get_available(obj):
           "available_bikes": obj["available_bikes"],
           "last_update": obj["last_update"]}
 
+
+# get the weather data
+def get_conditions(obj):
+    current = obj["main"]
+    return {"hum": current["humidity"],
+            "temp": current["temp"],
+            "weather": (obj["weather"])[0]["main"],
+            "wind_speed": (obj["wind"])["speed"],
+            "pressure": current["pressure"],
+            "visibility": obj["visibility"]}
