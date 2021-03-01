@@ -45,9 +45,11 @@ def get_stations(obj):
           "bike_stands": obj["bike_stands"]}
 
 def get_available(obj):
-  return {"number": obj["number"],
-          "bike_stands": obj["bike_stands"],
-          "available_bike_stands": obj["available_bike_stands"],
-          "available_bikes": obj["available_bikes"],
-          "last_update": datetime.datetime.fromtimestamp(int(obj["last_update"] / 1e3))}
+    print(obj["last_update"])
+
+    return {"number": obj["number"],
+              "bike_stands": obj["bike_stands"],
+              "available_bike_stands": obj["available_bike_stands"],
+              "available_bikes": obj["available_bikes"],
+              "last_update": datetime.datetime.fromtimestamp(int(obj["last_update"] / 1e3))}
 
