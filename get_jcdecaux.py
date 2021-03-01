@@ -29,12 +29,19 @@ def write_to_db(engine, table , data):
 
     # insert into the right table
     if table.name == "stations":
-        value = list(map(db_control.get_stations, data))
+        values = list(map(db_control.get_stations, data))
     elif table.name == "available":
+        # there was a bug where for a period some stands were returning 'last_update' as None
+        # This code filters out any None values for the last_update field
+        filteredData = []
+        for i in data:
+          if (i["last_update"] != "None"):
+            filteredData.append(i)
+        
         # get the values from the API
-        value = list(map(db_control.get_available, data))
+        values = list(map(db_control.get_available, filteredData))
 
-    ins = table.insert().values(value)
+    ins = table.insert().values(values)
     engine.execute(ins)
 
 

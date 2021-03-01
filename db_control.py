@@ -1,5 +1,5 @@
-from sqlalchemy import Table, Column, Integer, BigInteger, Float, String, MetaData, DateTime
-import datetime
+from sqlalchemy import Table, Column, Integer, Float, String, MetaData, DateTime
+from datetime import datetime
 
 #create metaData
 meta = MetaData()
@@ -26,7 +26,7 @@ def create_available(engine):
         Column("number", Integer),
         Column("available_bike_stands", Integer),
         Column("available_bikes", Integer),
-        Column("last_update", BigInteger()))
+        Column("last_update", DateTime()))
 
     # if does not exist create
     if not engine.dialect.has_table(engine, "available"):
@@ -48,5 +48,5 @@ def get_available(obj):
   return {"number": obj["number"],
           "available_bike_stands": obj["available_bike_stands"],
           "available_bikes": obj["available_bikes"],
-          "last_update": obj["last_update"]}
+          "last_update": datetime.fromtimestamp(obj["last_update"] / 1e3)}
 
