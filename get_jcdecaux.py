@@ -3,13 +3,12 @@ import requests
 import time
 import datetime
 import os
-import db
 import db_control
 from sqlalchemy import create_engine
 
 # Get api params from JSON file
-with open('JCDecaux_key.json') as f:
-   JCDecaux_key = json.load(f)
+with open('keys.json') as f:
+   keys = json.load(f)
 
 # Function which takes API text data as input and writes to new file in 'data' directory
 def write_to_file(text):
@@ -35,7 +34,7 @@ def write_to_db(engine, table , data):
         # This code filters out any None values for the last_update field
         filteredData = []
         for i in data:
-          if (i["last_update"] != "None"):
+          if (i["last_update"] != None):
             filteredData.append(i)
         
         # get the values from the API
@@ -49,13 +48,13 @@ def write_to_db(engine, table , data):
 
 def main():
     # make request to API
-    r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
+    r = requests.get("https://api.jcdecaux.com/vls/v1/stations", {"apiKey": keys["jcdecaux"]["API"], "contract": "Dublin"})
 
     # create the engine outside the loop so only create the table once
-    engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(   host=db.host,
-                                                                                                        password=db.password,
-                                                                                                        endpoint=db.endpoint,
-                                                                                                        db_name=db.name),
+    engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(   host=keys["db"]["host"],
+                                                                                                        password=keys["db"]["password"],
+                                                                                                        endpoint=keys["db"]["endpoint"],
+                                                                                                        db_name=keys["db"]["name"]),
                                                                                                         echo=True)
 
     # create table outside of the while loop
@@ -77,8 +76,8 @@ def main():
       if (datetime.datetime.now().time() <= datetime.time(00,30) or datetime.datetime.now().time() >= datetime.time(5)):
         
         # Get API data
-        r = requests.get("https://api.jcdecaux.com/vls/v1/stations", JCDecaux_key)
-        r2 = requests.get("https://api.openweathermap.org/data/2.5/weather?id={id}&appid={API_key}".format(id = db.id, API_key=db.API_key))
+        r = requests.get("https://api.jcdecaux.com/vls/v1/stations", {"apiKey": keys["jcdecaux"]["API"], "contract": "Dublin"})
+        r2 = requests.get("https://api.openweathermap.org/data/2.5/weather?id={id}&appid={API_key}".format(id = keys["weather"]["ID"], API_key = keys["weather"]["API"]))
         # Check status code
         if (r.status_code == 200):
           
