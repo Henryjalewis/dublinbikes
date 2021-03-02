@@ -1,8 +1,17 @@
 from flask import Flask,render_template
 from jinja2 import Template
 from sqlalchemy import create_engine
-import db
+#from dublinbikes import db
 import pandas as pd
+# some_file.py
+import sys
+# insert at 1, 0 is the script path (or '' in REPL)
+sys.path.append('/dublinbike')
+print(sys.path)
+
+import db
+
+
 app = Flask(__name__)
 
 @app.route("/")

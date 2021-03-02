@@ -34,8 +34,8 @@ def write_to_db(engine, table , data):
         # get the values from the API
         value = list(map(db_control.get_available, data))
     elif table.name == "weather":
-        value = list(db_control.get_conditions( data))
-
+        value = db_control.get_conditions(data)
+        print(value)
 
     ins = table.insert().values(value)
     engine.execute(ins)
