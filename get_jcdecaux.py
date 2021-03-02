@@ -6,7 +6,7 @@ import os
 import db_control
 from sqlalchemy import create_engine
 
-# Get api params from JSON file
+# Get keys from JSON file
 with open('keys.json') as f:
    keys = json.load(f)
 
