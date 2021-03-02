@@ -11,15 +11,19 @@ with open('keys.json') as f:
    keys = json.load(f)
 
 # Function which takes API text data as input and writes to new file in 'data' directory
-def write_to_file(text):
+def write_to_file(type, text):
   # Create 'data' directory if not already exists
   try:
     os.stat(os.path.dirname("data/"))
   except:
     os.mkdir("data")
-  # Write each API call to its own file in 'data' directory
-  with open("data/bikes_{}".format(time.time()).replace(" ", "_"), "w+") as f:
-    f.write(text)
+  # check type then write each API call to its own file in 'data' directory
+  if (type == "bikes"):
+    with open("data/bikes_{}".format(time.time()).replace(" ", "_"), "w+") as f:
+      f.write(text)
+  elif (type == "weather"):
+    with open("data/weather_{}".format(time.time()).replace(" ", "_"), "w+") as f:
+      f.write(text)
 
 
 
@@ -86,7 +90,7 @@ def main():
           write_to_db(engine, available, r.json())
 
           # writes to local
-          write_to_file(r.text)
+          write_to_file("bikes", r.text)
 
         elif (r.status_code == 403):
           # Handle for bad parameters error
@@ -100,6 +104,9 @@ def main():
 
             # writes to the database
             write_to_db(engine, weather, r2.json())
+
+            # writes to local
+            write_to_file("weather", r.text)
 
         elif (r2.status_code == 403):
             # Handle for bad parameters error
