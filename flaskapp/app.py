@@ -2,18 +2,14 @@ from flask import Flask, render_template
 from jinja2 import Template
 from sqlalchemy import create_engine
 import pandas as pd
-
-import sys
-
-#sys.path.append('keys.json')
 import json
 
 # Get keys from JSON file
-with open('keys.json') as f:
+with open('../keys.json') as f:
     keys = json.load(f)
 
-
 app = Flask(__name__)
+
 
 @app.route("/")
 # This function sets up the template for the homepage (index)
