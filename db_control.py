@@ -1,7 +1,7 @@
 from sqlalchemy import Table, Column, Integer, Float, String, MetaData, DateTime
 from datetime import datetime
 
-# create metaData
+#create metaData
 meta = MetaData()
 
 # create stations table

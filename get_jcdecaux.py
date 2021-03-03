@@ -56,7 +56,7 @@ def main():
     r = requests.get("https://api.jcdecaux.com/vls/v1/stations", {"apiKey": keys["jcdecaux"]["API"], "contract": "Dublin"})
 
     # create the engine outside the loop so only create the table once
-    engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(host=keys["db"]["host"],
+    engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(   host=keys["db"]["host"],
                                                                                                         password=keys["db"]["password"],
                                                                                                         endpoint=keys["db"]["endpoint"],
                                                                                                         db_name=keys["db"]["name"]),
