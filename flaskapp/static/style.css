@@ -9,7 +9,7 @@ body {
     margin: 20;
     padding: 0;
 }
-
+/* Styling for the navigation bar. */
 .navbar {
     margin: 0;
     position: relative;
@@ -19,13 +19,13 @@ body {
     background-color: #333;
     color: white;
 }
-
+/* Styling for the navigation bar Title. */
 .Title {
     font-size: 24px;
     margin: 15px;
     text-transform: uppercase;
 }
-
+/* Styling for the navigation bar Links. */
 .navlinks ul {
     margin: 0;
     padding: 0;
@@ -46,15 +46,17 @@ body {
     padding: 1rem;
 }
 
-
+/* Styling for the navigation bar Links when hovering. */
 .navlinks li:hover {
     background-color: #555;
 }
 
+/* Styling for the map container */
 #map {
   height: 100%;
 }
 
+/* dynamic adjustments for navbar */
 @media (max-width: 600px) {
 
 .navbar {
