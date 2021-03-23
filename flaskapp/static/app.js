@@ -64,7 +64,8 @@ fetch("/details/" + y.value).then(response=> {
 }).then(data => 
         {
         console.log("station: ", data);
-        dets.innerHTML += data[0].available_bikes;
+        str = "available bikes :" + data[0].available_bikes + "available stations" + data[0].available_bike_stands
+        dets.innerHTML = str;
         }
 ).catch(err => {
         console.log("ERROR",err)

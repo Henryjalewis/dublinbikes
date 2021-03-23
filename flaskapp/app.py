@@ -40,10 +40,12 @@ def stations():
     return df.to_json(orient='records')
 
 
-<<<<<<< HEAD
 @app.route("/bikes")
 def dynamic_bikes():
-=======
+
+    df = pd.read_sql_table("SELECT*from static_bikes", engine)
+    bike_data = df.to_json(orient='records')
+    return bike_data
 @app.route("/details/<name>")
 def details(name):
     engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(host=keys["db"]["host"],
@@ -51,11 +53,6 @@ def details(name):
                                                                                                         endpoint=keys["db"]["endpoint"],
                                                                                                         db_name=keys["db"]["name"]),
                                                                                                         echo=True)
-<<<<<<< HEAD
-    df = pd.read_sql_table("SELECT*from static_bikes", engine)
-    bike_data = df.to_json(orient='records')
-    return bike_data
-=======
 
     # get the name form javascript
     #names = request.args.values("station")
@@ -74,9 +71,6 @@ def details(name):
 
     print(AV)
     return AV.to_json(orient='records')
-
-
->>>>>>> 497d562569143d62340792769192fd2b9d8250fe
 
 if __name__ == "__main__":
     app.run(debug=True)
