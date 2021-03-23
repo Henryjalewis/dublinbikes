@@ -13,7 +13,8 @@ function initMap() {
     center: { lat: 53.3497645, lng: -6.2602732 },
     zoom: 13,
   });
-     // Sets the map markers on the bike stations
+
+   // Sets the map markers on the bike stations
   data.forEach(station => {
     const marker = new google.maps.Marker({
         position: { lat: station.pos_lat, lng: station.pos_long },

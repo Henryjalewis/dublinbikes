@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from jinja2 import Template
 from sqlalchemy import create_engine
 import pandas as pd
@@ -14,6 +14,7 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     return render_template("index.html")
+
 
 # This function sets up the template for the about page (content and structure to be determined)
 @app.route("/about")
@@ -39,16 +40,44 @@ def stations():
     return df.to_json(orient='records')
 
 
+<<<<<<< HEAD
 @app.route("/bikes")
 def dynamic_bikes():
+=======
+@app.route("/details/<name>")
+def details(name):
+>>>>>>> 497d562569143d62340792769192fd2b9d8250fe
     engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(host=keys["db"]["host"],
                                                                                                         password=keys["db"]["password"],
                                                                                                         endpoint=keys["db"]["endpoint"],
                                                                                                         db_name=keys["db"]["name"]),
                                                                                                         echo=True)
+<<<<<<< HEAD
     df = pd.read_sql_table("SELECT*from static_bikes", engine)
     bike_data = df.to_json(orient='records')
     return bike_data
+=======
+
+    # get the name form javascript
+    #names = request.args.values("station")
+
+    # use the name in a query
+    print(name)
+    #print(request.values.get.keys())
+    query = f"""    
+    select available_bike_stands, available_bikes, max(last_update) from available
+    join stations on available.number = stations.number
+    where stations.name = '{name}'"""
+    print(query)
+    # use the engine connection to query
+    with engine.connect() as con:
+        AV = pd.read_sql_query(query, con)
+
+    print(AV)
+    return AV.to_json(orient='records')
+
+
+>>>>>>> 497d562569143d62340792769192fd2b9d8250fe
 
 if __name__ == "__main__":
     app.run(debug=True)
