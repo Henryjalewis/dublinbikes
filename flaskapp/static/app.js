@@ -2,32 +2,41 @@ let map;
 
 function initMap() {
 
-  fetch("/stations").then(response=> {
+  fetch("/stations").then(response => {
     return response.json();
   }).then (data => {
-    console.log("data: ", data);
-
-     // Sets the map to centre on Dublin
-   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 53.3497645, lng: -6.2602732 },
-    zoom: 13,
-  });
-
-   // Sets the map markers on the bike stations
-  data.forEach(station => {
-    const marker = new google.maps.Marker({
-        position: { lat: station.pos_lat, lng: station.pos_long },
-    map: map,
+    // Sets the map to centre on Dublin
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 53.3497645, lng: -6.2602732 },
+      zoom: 13,
     });
-       // Adds an info window to an event listener to each station map markers on the bike stations
-    marker.addListener("click", () => {
-     const infowindow = new google.maps.InfoWindow({
-        content: station.name,
-     });
-    infowindow.open(map, marker);
-  });
 
-  });
+    // variable to hold info eindow
+    var infoWindow = new google.maps.InfoWindow();
+
+    // Sets the map markers on the bike stations
+    data.forEach(station => {
+      const marker = new google.maps.Marker({
+        position: { lat: station.pos_lat, lng: station.pos_long },
+        map: map,
+      });
+    
+      // Adds an info window to an event listener to each station map markers on the bike stations
+      marker.addListener('click', function() {
+        infoWindow.setContent(
+          "<h4>" + station.name + "</h4>" +
+          "<hr>" +
+          "Total Stands: " + station.bike_stands
+        );
+        infoWindow.open(map, marker);
+      });
+
+    });
+
+    map.addListener('click', function() {
+        if (infowindow) infowindow.close();
+    });
+
   }).catch(err => {
       console.log("ERROR",err);
   })
