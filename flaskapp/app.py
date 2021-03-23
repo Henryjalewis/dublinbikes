@@ -21,9 +21,10 @@ def home():
 # This function sets up the template for the about page (content and structure to be determined)
 @app.route("/about")
 def about():
-  return app.send_static_file("about.html")
+  return render_template("about.html")
 
 # This function sets up the template for the contacts page (content and structure to be determined)
+
 @app.route("/contact")
 def contact():
   #tpl = Template()
