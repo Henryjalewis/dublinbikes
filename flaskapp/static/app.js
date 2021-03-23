@@ -7,8 +7,8 @@ function initMap() {
   }).then (data => {
     // Sets the map to centre on Dublin
     map = new google.maps.Map(document.getElementById("map"), {
-      center: { lat: 53.3497645, lng: -6.2602732 },
-      zoom: 13,
+      center: { lat: 53.346, lng: -6.26986 },
+      zoom: 14,
     });
 
     // variable to hold info eindow
