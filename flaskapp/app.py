@@ -46,7 +46,6 @@ def dynamic_bikes():
 =======
 @app.route("/details/<name>")
 def details(name):
->>>>>>> 497d562569143d62340792769192fd2b9d8250fe
     engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(host=keys["db"]["host"],
                                                                                                         password=keys["db"]["password"],
                                                                                                         endpoint=keys["db"]["endpoint"],
