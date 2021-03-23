@@ -2,18 +2,18 @@
 
 <html lang="en">
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
+    <title>HTML5 Template</title>
+    <meta name="description" content="header page">
+    <meta name="Henry Lewis" content="SitePoint">
 
-  <title>HTML5 Template</title>
-  <meta name="description" content="header page">
-  <meta name="Henry Lewis" content="SitePoint">
 
-<link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
-
+    <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
 </head>
 
 <body>
-  <nav class="navbar">
+<nav class="navbar">
         <div class="Title">Dublin Bikes Scheme</div>
         <div class="navlinks">
             <ul>
@@ -38,55 +38,12 @@
 <div id="map"></div>
 
 
-<script>
-
-let map;
-
-function initMap() {
-
-  fetch("/stations").then(response=> {
-    return response.json();
-  }).then (data => {
-    console.log("data: ", data);
-
-     // Sets the map to centre on Dublin
-   map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 53.3497645, lng: -6.2602732 },
-    zoom: 13,
-  });
-     // Sets the map markers on the bike stations
-  data.forEach(station => {
-    const marker = new google.maps.Marker({
-        position: { lat: station.pos_lat, lng: station.pos_long },
-    map: map,
-    });
-       // Adds an info window to an event listener to each station map markers on the bike stations
-    marker.addListener("click", () => {
-     const infowindow = new google.maps.InfoWindow({
-        content: station.name,
-     });
-    infowindow.open(map, marker);
-  });
-
-  });
-
-
-
-  }).catch(err => {
-  console.log("ERROR",err)
-  })
-
-
-}
-
-
-
-</script>
 
 <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
+    <script async
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD224wAWYY1UyMRJejq2fwRizrFMrAZ_mg&callback=initMap&libraries=&v=weekly"
-      async
     ></script>
+
 </body>
+
 </html>
