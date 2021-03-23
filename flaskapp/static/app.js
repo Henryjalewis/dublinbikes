@@ -34,27 +34,27 @@ function initMap() {
     });
 
     map.addListener('click', function() {
-        if (infowindow) infowindow.close();
+      if (infowindow) infowindow.close();
     });
 
   }).catch(err => {
-      console.log("ERROR",err);
+    console.log("ERROR",err);
   })
 }
 
 
 function Drop() {
-    x = document.getElementById("station");
-    fetch("/stations").then(response=> {
-return response.json();
-}).then (data => {
-// create drop down station names
-  options = "<option value=0> </option>";
-  for (i = 0; i < data.length; i++) {
+  x = document.getElementById("station");
+  fetch("/stations").then(response=> {
+    return response.json();
+  }).then (data => {
+    // create drop down station names
+    options = "<option value=0> </option>";
+    for (i = 0; i < data.length; i++) {
       options += "<option value='" + data[i].name + "'>" + data[i].name + "</option>"; 
-  }
-  x.innerHTML = options;
-    });
+    }
+    x.innerHTML = options;
+  });
 }
 
 
@@ -67,17 +67,16 @@ dets = document.getElementById("Details");
 
 // fecthing the data
 fetch("/details/" + y.value).then(response=> {
-    console.log(response);
-    return response.json();
-
+  console.log(response);
+  return response.json();
 }).then(data => 
-        {
-        console.log("station: ", data);
-        str = "available bikes :" + data[0].available_bikes + "available stations" + data[0].available_bike_stands
-        dets.innerHTML = str;
-        }
+  {
+  console.log("station: ", data);
+  str = "available bikes :" + data[0].available_bikes + "available stations" + data[0].available_bike_stands
+  dets.innerHTML = str;
+  }
 ).catch(err => {
-        console.log("ERROR",err)
-        })
-    return false;
+  console.log("ERROR",err)
+  })
+  return false;
 }
