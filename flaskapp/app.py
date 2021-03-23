@@ -7,7 +7,7 @@ import json
 # Get keys from JSON file
 with open('../keys.json') as f:
   keys = json.load(f)
-  
+
 engine = create_engine("mysql+mysqlconnector://{host}:{password}@{endpoint}:3306/{db_name}".format(host=keys["db"]["host"], password=keys["db"]["password"], endpoint=keys["db"]["endpoint"], db_name=keys["db"]["name"]))
 
 app = Flask(__name__)
@@ -33,7 +33,17 @@ def contact():
 # reads API information for station locations and outputs a dataframe
 @app.route("/stations")
 def stations():
-    df = pd.read_sql_table("stations", engine)
+    df = pd.read_sql(
+      "SELECT DISTINCT t1.*, t3.name, t3.address, t3.pos_lat, t3.pos_long, t3.bike_stands \
+      FROM `jcdecaux-bikes`.available AS t1 \
+      INNER JOIN \
+      `jcdecaux-bikes`.stations AS t3 \
+      ON t1.number = t3.number \
+      INNER JOIN ( \
+          SELECT number, MAX(last_update) last_update \
+          FROM `jcdecaux-bikes`.available \
+          GROUP BY number \
+      ) t2 ON t1.number = t2.number AND t1.last_update = t2.last_update;", engine)
     return df.to_json(orient='records')
 
 @app.route("/bikes")
