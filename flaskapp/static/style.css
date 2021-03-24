@@ -28,12 +28,14 @@ body {
     background-color: #333;
     color: white;
 }
+
 /* Styling for the navigation bar Title. */
 .Title {
   font-size: 24px;
   margin: 15px;
   text-transform: uppercase;
 }
+
 /* Styling for the navigation bar Links. */
 .navlinks ul {
   margin: 0;
@@ -83,7 +85,6 @@ option {
 /* Styling for the footer */
 #footer {
   padding: 10px 20px;
-  width: 100%;
   height: 50px;
   background-color: #333;
   color: white;
