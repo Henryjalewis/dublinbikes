@@ -66,8 +66,8 @@ option {
 
 /* Styling for the map container */
 #map {
-    height: 700px;
-    width:80%;
+    height: 800px;
+    width:95%;
     padding-bottom:30px;
     padding-top: 0;
     margin:25px;
