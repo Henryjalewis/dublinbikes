@@ -66,18 +66,19 @@ option {
 
 /* Styling for the map container */
 #map {
-    height: 700px;
-    width:80%;
+    height: 650px;
+    width:75%;
     padding-bottom:30px;
     padding-top: 0;
-    margin:25px;
+    margin:0px 10px 5px 25px;;
 }
 /* Styling for the Index page down menu */
 #drop {
-
-    margin:25px;
+    margin:10px 10px 5px 25px;
 }
-
+#Details{
+    margin:5px 5px 5px 25px;
+}
 
 /* Styling for the footer */
 #footer {
