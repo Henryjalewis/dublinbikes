@@ -20,7 +20,7 @@ body {
 
 /* Styling for the navigation bar. */
 .navbar {
-    margin: 0;
+    padding: 0 20px;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -28,90 +28,124 @@ body {
     background-color: #333;
     color: white;
 }
+
 /* Styling for the navigation bar Title. */
 .Title {
-    font-size: 24px;
-    margin: 15px;
-    text-transform: uppercase;
+  font-size: 24px;
+  margin: 15px;
+  text-transform: uppercase;
 }
+
 /* Styling for the navigation bar Links. */
 .navlinks ul {
-    margin: 0;
-    padding: 0;
-    display: flex
+  margin: 0;
+  padding: 0;
+  display: flex
 }
 
 .navlinks li {
-    list-style: none;
+  list-style: none;
 }
 
 .navlinks li a {
-
-    color: white;
-    font-size: 12px;
-    text-transform: uppercase;
-    text-decoration: none;
-    display: block;
-    padding: 1rem;
+  color: white;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: none;
+  display: block;
+  padding: 1rem;
 }
 
 /* Styling for the navigation bar Links when hovering. */
 .navlinks li:hover {
-    background-color: #555;
+  background-color: #555;
 }
 
 option {
-    font-size: 200%;
+  font-size: 200%;
 }
 
 /* Styling for the map container */
 #map {
-    height: 650px;
-    width:75%;
-    padding-bottom:30px;
-    padding-top: 0;
-    margin:0px 10px 5px 25px;
+  height: 700px;
+  width: 95%;
+  padding-bottom: 30px;
+  margin: 25px;
 }
 /* Styling for the Index page down menu */
 #drop {
 
-    margin:10px 10px 5px 25px;
+  margin:10px 10px 5px 25px;
 }
 
 #Details{
-    margin:5px 5px 5px 25px;
+  margin:5px 5px 5px 25px;
 }
 
 /* Styling for the footer */
 #footer {
-    position: fixed;
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 50px;
-    background-color: #333;
-    color: white;
-    text-align: center;
+  padding: 10px 20px;
+  height: 50px;
+  background-color: #333;
+  color: white;
+  text-align: center;
 }
 /* Styling for the footer content */
 #footer p {
-    margin-top: 8px;
-    padding: 5px;
-    float: left;
+  margin-top: 8px;
+  padding: 5px;
+  float: left;
 }
 
 /* dynamic adjustments for navbar */
 @media (max-width: 600px) {
 
 .navbar {
-flex-direction: column;
-align-items: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .navlinks ul li a {
-    padding: 5px 8px;
+  padding: 5px 8px;
 }
 
+}
+
+/* contact form styling */
+
+.content {
+  margin: 25px;
+}
+
+/* contact form styling */
+
+input[type=text], textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  margin-bottom: 16px;
+  resize: vertical;
+}
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+.contact-form {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
 }
 
