@@ -64,11 +64,42 @@ fetch("/details/" + y.value).then(response=> {
 }).then(data => 
         {
         console.log("station: ", data);
-        str = "available bikes :" + data[0].available_bikes + "available stations" + data[0].available_bike_stands
-        dets.innerHTML = str;
+        // create the chart containing the data 
+        ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['available bikes', 'avaliable stands'],
+            datasets: [{
+                label: 'Station Counts',
+                data: [data[0].available_bikes, data[0].available_bike_stands],
+                backgroundColor: [
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+    
         }
 ).catch(err => {
         console.log("ERROR",err)
         })
     return false;
+}
+
+function getLocation() {
+    
 }

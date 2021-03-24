@@ -10,6 +10,7 @@
 
     <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body onload="Drop()">
@@ -52,6 +53,9 @@
     
     <div id="Details">
     Here are the details of the stations
+        <canvas id="myChart">
+        
+        </canvas>
     </div>
 
 <div id="map"></div>
@@ -62,6 +66,9 @@
     <script async
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD224wAWYY1UyMRJejq2fwRizrFMrAZ_mg&callback=initMap&libraries=&v=weekly"
     ></script>
+    
+    
+
 
 </body>
 
