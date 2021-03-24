@@ -20,7 +20,7 @@ body {
 
 /* Styling for the navigation bar. */
 .navbar {
-    margin: 0;
+    padding: 0 20px;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -82,8 +82,7 @@ option {
 
 /* Styling for the footer */
 #footer {
-  left: 0;
-  bottom: 0;
+  padding: 10px 20px;
   width: 100%;
   height: 50px;
   background-color: #333;
