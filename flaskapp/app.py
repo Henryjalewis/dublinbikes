@@ -24,6 +24,7 @@ def about():
   return render_template("about.html")
 
 # This function sets up the template for the contacts page (content and structure to be determined)
+
 @app.route("/contact")
 def contact():
   #tpl = Template()

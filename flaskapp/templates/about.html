@@ -4,33 +4,49 @@
   <head>
     <meta charset="utf-8">
     <title>Dublin Bikes - About</title>
-
     <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
   </head>
-
   <body>
-    <nav class="navbar">
-      <div class="Title">Dublin Bikes Scheme</div>
-      <div class="navlinks">
-        <ul>
-          <li>
-            <a class="active" href="/">
-              <h1>Home</h1>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <h1>About</h1>
-            </a>
-          </li>
-          <li>
-            <a href="/contact">
-              <h1>Contact</h1>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <h2>This is an about page</h2>
+  <!----Navigation Bar content ----------------------->
+  <nav class="navbar">
+    <div class="Title">Dublin Bikes Scheme</div>
+    <div class="navlinks">
+      <ul>
+        <li>
+          <a href="/">
+            <h1>Home</h1>
+          </a>
+        </li>
+        <li>
+          <a class="active" href=/about">
+            <h1>About</h1>
+          </a>
+        </li>
+        <li>
+          <a class="active" href="/contact">
+            <h1>Contact</h1>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <h1>To be decided</h1>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <h1>To be decided</h1>
+          </a>
+        </li>
+      </ul>
+    </div>
+</nav>
+
+
+  <h2>Hello There maty</h2>
+
+  <!----Footer content ----------------------->
+  <div id="footer">
+        <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+  </div>
   </body>
 </html>
