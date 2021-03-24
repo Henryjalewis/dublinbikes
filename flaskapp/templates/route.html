@@ -9,8 +9,37 @@
     <link rel="icon" type="ico" href="{{ url_for('static', filename = 'favicon.ico') }}">
 
     <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
-  </head>
 
+    <script>
+      function initMap() {
+      var directionsService = new google.maps.DirectionsService();
+      var directionsRenderer = new google.maps.DirectionsRenderer();
+      var chicago = new google.maps.LatLng(41.850033, -87.6500523);
+      var mapOptions = {
+        zoom:7,
+        center: chicago
+      }
+      var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      directionsRenderer.setMap(map);
+    }
+
+    function calcRoute() {
+      var start = document.getElementById('start').value;
+      var end = document.getElementById('end').value;
+      var request = {
+        origin: start,
+        destination: end,
+        travelMode: 'DRIVING'
+      };
+      directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+          directionsRenderer.setDirections(result);
+        }
+      });
+    }
+    </script>
+  </head>
+  
   <body>
 
   <!---- Navigation Bar ----------------------->
@@ -48,6 +77,43 @@
     <p>Enter a starting point and destination and we will find the best route using the dublin bikes network</p>
     <br>
 
+    <p>{{ key }}</p>
+
+    <div id="map"></div>
+
+    <div>
+      <strong>Start: </strong>
+      <select id="start" onchange="calcRoute();">
+        <option value="chicago, il">Chicago</option>
+        <option value="st louis, mo">St Louis</option>
+        <option value="joplin, mo">Joplin, MO</option>
+        <option value="oklahoma city, ok">Oklahoma City</option>
+        <option value="amarillo, tx">Amarillo</option>
+        <option value="gallup, nm">Gallup, NM</option>
+        <option value="flagstaff, az">Flagstaff, AZ</option>
+        <option value="winona, az">Winona</option>
+        <option value="kingman, az">Kingman</option>
+        <option value="barstow, ca">Barstow</option>
+        <option value="san bernardino, ca">San Bernardino</option>
+        <option value="los angeles, ca">Los Angeles</option>
+      </select>
+      <strong>End: </strong>
+      <select id="end" onchange="calcRoute();">
+        <option value="chicago, il">Chicago</option>
+        <option value="st louis, mo">St Louis</option>
+        <option value="joplin, mo">Joplin, MO</option>
+        <option value="oklahoma city, ok">Oklahoma City</option>
+        <option value="amarillo, tx">Amarillo</option>
+        <option value="gallup, nm">Gallup, NM</option>
+        <option value="flagstaff, az">Flagstaff, AZ</option>
+        <option value="winona, az">Winona</option>
+        <option value="kingman, az">Kingman</option>
+        <option value="barstow, ca">Barstow</option>
+        <option value="san bernardino, ca">San Bernardino</option>
+        <option value="los angeles, ca">Los Angeles</option>
+      </select>
+      </div>
+
   </div>
 
   <!---- Footer  ----------------------->
@@ -55,6 +121,10 @@
     <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
   </div>
 
+  <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&libraries=&v=weekly"
+  ></script>
 
   </body>
 </html>
