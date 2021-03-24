@@ -1,18 +1,57 @@
-<!doctype html>
+<!DOCTYPE html5>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
+    <title>Dublin Bikes - Contact</title>
 
-  <title>HTML5 Template</title>
-  <meta name="description" content="header page">
-  <meta name="Henry Lewis" content="SitePoint">
+    <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
+  </head>
 
+  <body>
 
+    <!---- Navigation Bar ----------------------->
+    <nav class="navbar">
+      <div class="Title">Dublin Bikes Scheme</div>
+      <div class="navlinks">
+        <ul>
+          <li>
+            <a class="active" href="/">
+              <h1>Home</h1>
+            </a>
+          </li>
+          <li>
+            <a href="/about">
+              <h1>About</h1>
+            </a>
+          </li>
+          <li>
+            <a href="">
+              <h1>Contact</h1>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-</head>
+    <!---- Content ----------------------->
+    <h3>Is there something you would like to tell us?</h3>
+    <p>If so, please contact us using the form below.</p>
 
-<body>
-<h2>Hello there {{ name }}!</h2>
-</body>
+    <div class="contact-form">
+      <form action="">
+        <label for="fname">First Name</label>
+        <input type="text" id="fname" name="firstname" placeholder="Your name..">
+
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lastname" placeholder="Your last name..">
+
+        <label for="subject">Subject</label>
+        <textarea id="subject" name="subject" placeholder="Write something.." style="height:200px"></textarea>
+
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+
+  </body>
 </html>

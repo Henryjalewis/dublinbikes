@@ -50,7 +50,7 @@ return response.json();
 
 
 function selectStation() {
-test = document.getElementById("Testing");
+test = document.getElementById("Chart");
 y = document.getElementById("station");
 test.innerHTML = y.value;
 
@@ -64,34 +64,39 @@ fetch("/details/" + y.value).then(response=> {
 }).then(data => 
         {
         console.log("station: ", data);
+        
+        
         // create the chart containing the data 
-        ctx = document.getElementById('myChart');
-        var myChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['available bikes', 'avaliable stands'],
-            datasets: [{
-                label: 'Station Counts',
-                data: [data[0].available_bikes, data[0].available_bike_stands],
-                backgroundColor: [
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
+        // rempve the current chart to place new one
+            ctx = document.getElementById('myChart').getContext('2d');
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+        // create new chart
+            myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ['available bikes', 'avaliable stands'],
+                datasets: [{
+                    label: 'Station Counts',
+                    data: [4, 5],
+                    backgroundColor: [
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
     
         }
 ).catch(err => {
