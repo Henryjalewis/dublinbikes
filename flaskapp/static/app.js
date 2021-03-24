@@ -26,8 +26,8 @@ function initMap() {
         infoWindow.setContent(
           "<h4>" + station.name + "</h4>" +
           "<hr>" +
-          "<p>Total Stands: " + station.bike_stands + "</p>" +
-          "<p>Available Bikes: " + station.available_bikes + "</p>"
+          "<p>Available Bikes: " + station.available_bikes + "</p>" +
+          "<p>Empty Stands: " + station.available_bike_stands + "</p>"
         );
         infoWindow.open(map, marker);
       });
