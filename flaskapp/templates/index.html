@@ -43,45 +43,51 @@
     </div>
   </nav>
 
-  <!---- Content ----------------------->
+  <div class="page-container">
+    
+    <!---- Content ----------------------->
+    <div class="content">
 
-  <!---- Weather Content Information ----------------------->
-  <div id='day'>
-    <div class='date'></div>
-    <div class='icon' ></div>
-    <div class='type'></div>
-    <div class='humidity'></div>
-    <div class='temp'></div>
-    <div class='description'></div><span class='value'></span></div>
-    <div class='conditions'></div>
-    <div class='time'></div>
-  </div>
+      <!---- Weather Content Information ----------------------->
+      <div id='day'>
+        <div class='date'></div>
+        <div class='icon' ></div>
+        <div class='type'></div>
+        <div class='humidity'></div>
+        <div class='temp'></div>
+        <div class='description'><span class='value'></span></div>
+        <div class='conditions'></div>
+        <div class='time'></div>
+      </div>
 
 
-  <!---- Mapping Content ----------------------->
-  <div id="map"></div>
+      <!---- Mapping Content ----------------------->
+      <div id="map"></div>
 
-  <div id="Drop">
-    <!-- Create a form that is the drop down list of stations.
-    Will use the submission to query for the details of the station-->
-    <form action="" >
-      <label for="station">Choose a Station: </label>
-      <select id="station" name="station">
-      </select>
-      <input type="button" onclick="selectStation()" value="GOGOGOGO">
-    </form>
-  </div>   
+      <div id="Drop">
+        <!-- Create a form that is the drop down list of stations.
+        Will use the submission to query for the details of the station-->
+        <form action="" >
+          <label for="station">Choose a Station: </label>
+          <select id="station" name="station">
+          </select>
+          <input type="button" onclick="selectStation()" value="GOGOGOGO">
+        </form>
+      </div>   
 
-  <div id="Details">
-  Here are the details of the stations
-  </div>
-      
-  <div id="Testing"> Testing</div>
+      <div id="Details">
+      Here are the details of the stations
+      </div>
+          
+      <div id="Testing"> Testing</div>
 
-  <!---- Footer ----------------------->
+    </div>
 
-  <div id="footer">
-        <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+    <!---- Footer ----------------------->
+    <div id="footer">
+          <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+    </div>
+    
   </div>
 
   <!-- Async script executes immediately and must be after any DOM elements used in callback. -->

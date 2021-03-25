@@ -53,12 +53,12 @@
           </a>
         </li>
         <li>
-          <a class="active" href="/route">
+          <a class="active" href="">
             <h1>Route Planner</h1>
           </a>
         </li>
         <li>
-          <a class="active" href="">
+          <a class="active" href="/about">
             <h1>About</h1>
           </a>
         </li>
@@ -71,36 +71,40 @@
     </div>
   </nav>
 
-  <div class="content">
+  <div class="page-container">
 
-    <h1>Plan your route</h1>
-    <p>Enter a starting point and destination and we will find the best route using the dublin bikes network</p>
-    <br>
+    <!---- Content ----------------------->
+    <div class="content">
 
-    <div>
-      <strong>Start: </strong>
-      <select id="start" onchange="calcRoute();">
-        <option value="dublin">Dublin</option>
-        <option value="galway">Galway</option>
-        <option value="belfast">Belfast</option>
-        <option value="cork">Cork</option>
-      </select>
-      <strong>End: </strong>
-      <select id="end" onchange="calcRoute();">
-        <option value="dublin">Dublin</option>
-        <option value="galway">Galway</option>
-        <option value="belfast">Belfast</option>
-        <option value="cork">Cork</option>
-      </select>
-      </div>
+      <h1>Plan your route</h1>
+      <p>Enter a starting point and destination and we will find the best route using the dublin bikes network</p>
+      <br>
 
-      <div id="map"></div>
+      <div>
+        <strong>Start: </strong>
+        <select id="start" onchange="calcRoute();">
+          <option value="dublin">Dublin</option>
+          <option value="galway">Galway</option>
+          <option value="belfast">Belfast</option>
+          <option value="cork">Cork</option>
+        </select>
+        <strong>End: </strong>
+        <select id="end" onchange="calcRoute();">
+          <option value="dublin">Dublin</option>
+          <option value="galway">Galway</option>
+          <option value="belfast">Belfast</option>
+          <option value="cork">Cork</option>
+        </select>
+        </div>
 
-  </div>
+        <div id="map"></div>
 
-  <!---- Footer  ----------------------->
-  <div id="footer">
-    <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+    </div>
+
+    <!---- Footer  ----------------------->
+    <div id="footer">
+      <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+    </div>
   </div>
 
   <!-- Async script executes immediately and must be after any DOM elements used in callback. -->

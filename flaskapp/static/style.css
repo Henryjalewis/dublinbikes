@@ -1,32 +1,22 @@
-/* CSS file */
-
-
 /* Global Styles. */
-html,
-body{
-    height: 100%;
-    margin: 0;
-    padding: 0;
-}
-
 body {
-    margin: 0;
-    padding: 0;
-    background: white;
-    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-    font-weight: 400;
-    color: #666699;
+  margin: 0;
+  padding: 0;
+  background: white;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  color: #666699;
 }
 
 /* Styling for the navigation bar. */
 .navbar {
-    padding: 0 20px;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    color: white;
+  padding: 0 20px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: white;
 }
 
 /* Styling for the navigation bar Title. */
@@ -61,6 +51,17 @@ body {
   background-color: #555;
 }
 
+/* dynamic adjustments for navbar */
+@media (max-width: 600px) {
+.navbar {
+  flex-direction: column;
+  align-items: flex-start;
+}
+.navlinks ul li a {
+  padding: 5px 8px;
+}
+}
+
 option {
   font-size: 200%;
 }
@@ -72,53 +73,37 @@ option {
   padding-bottom: 30px;
   margin: 25px;
 }
-/* Styling for the Index page down menu */
-#drop {
 
-  margin:10px 10px 5px 25px;
+/* page container styling */
+.page-container {
+  position: relative;
+  min-height: 100vh;
 }
 
-#Details{
-  margin:5px 5px 5px 25px;
+/* page content styling */
+.content {
+  margin: 25px 25px 0 25px;
+  padding-bottom: 5rem;
 }
 
-/* Styling for the footer */
+/* page footer styling */
 #footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   padding: 10px 20px;
-  height: 50px;
+  height: 3rem;
   background-color: #333;
   color: white;
   text-align: center;
 }
-/* Styling for the footer content */
 #footer p {
   margin-top: 8px;
   padding: 5px;
   float: left;
 }
 
-/* dynamic adjustments for navbar */
-@media (max-width: 600px) {
-
-.navbar {
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.navlinks ul li a {
-  padding: 5px 8px;
-}
-
-}
-
 /* contact form styling */
-
-.content {
-  margin: 25px;
-}
-
-/* contact form styling */
-
 input[type=text], textarea {
   width: 100%;
   padding: 12px;
@@ -129,7 +114,6 @@ input[type=text], textarea {
   margin-bottom: 16px;
   resize: vertical;
 }
-
 input[type=submit] {
   background-color: #4CAF50;
   color: white;
@@ -138,11 +122,9 @@ input[type=submit] {
   border-radius: 4px;
   cursor: pointer;
 }
-
 input[type=submit]:hover {
   background-color: #45a049;
 }
-
 .contact-form {
   border-radius: 5px;
   background-color: #f2f2f2;
