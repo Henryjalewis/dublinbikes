@@ -1,5 +1,6 @@
 /* Global Styles. */
 body {
+  position: relative;
   margin: 0;
   padding: 0;
   background: white;
@@ -88,9 +89,8 @@ option {
 
 /* page footer styling */
 #footer {
-  position: absolute;
+  position: relative;
   bottom: 0;
-  width: 100%;
   padding: 10px 20px;
   height: 3rem;
   background-color: #333;
