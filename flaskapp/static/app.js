@@ -50,7 +50,7 @@ return response.json();
 
 
 function redirectStation() {
-    test = document.getElementById("Chart");
+    test = document.getElementById("Title");
         // Store
 
     y = document.getElementById("station");
@@ -68,6 +68,7 @@ function selectStation(){
     // Retrieve data after new page open
     var StationName = sessionStorage.getItem("stationName");
     console.log(StationName)
+    // sets the title of the charts
     dets = document.getElementById("Title");
     dets.innerHTML = StationName;
 
@@ -133,7 +134,7 @@ function selectStation(){
             available_bikes = [];
             available_stands= [];
             time = [];
-        
+            
             for (i = 0; i < data.length; i++) {
                 available_bikes[i] = data[i].available_bikes;
                 available_stands[i] = data[i].available_bike_stands;
@@ -144,7 +145,7 @@ function selectStation(){
             // rempve the current chart to place new one
             ctx = document.getElementById('chart2').getContext('2d');
             ctx.clearRect(0, 0, ctx.width, ctx.height);
-            // create new chart
+            // create line chart
             myChart = new Chart(ctx, {
             type: 'line',
             data: {
