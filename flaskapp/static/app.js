@@ -49,35 +49,52 @@ return response.json();
 }
 
 
-function selectStation() {
-test = document.getElementById("Chart");
-y = document.getElementById("station");
-test.innerHTML = y.value;
+function redirectStation() {
+    test = document.getElementById("Chart");
+        // Store
 
-dets = document.getElementById("Details");
+    y = document.getElementById("station");
+    test.innerHTML = y.value;
+    // save the variable in the tab name    
+    sessionStorage.setItem("stationName", y.value);
+    if (window.location.href != "/information") {
+        // open new window at url detail
+        location.href ="/information";
+    }
+    
+}
 
-// fecthing the data
-fetch("/details/" + y.value).then(response=> {
-    console.log(response);
-    return response.json();
+function selectStation(){
+    // Retrieve data after new page open
+    var StationName = sessionStorage.getItem("stationName");
+    console.log(StationName)
+    dets = document.getElementById("Title");
+    dets.innerHTML = StationName;
 
-}).then(data => 
-        {
-        console.log("station: ", data);
-        
-        
-        // create the chart containing the data 
-        // rempve the current chart to place new one
-            ctx = document.getElementById('myChart').getContext('2d');
+    // fecthing the current data 
+    fetch("/details/" + StationName).then(response=> {
+        console.log(response);
+        return response.json();
+
+    }).then(data => 
+            {
+            console.log("station: ", data);
+
+
+            // create the chart containing the data 
+            // rempve the current chart to place new one
+            ctx = document.getElementById('chart1').getContext('2d');
             ctx.clearRect(0, 0, ctx.width, ctx.height);
-        // create new chart
+            vals = data;
+    // create new chart
+
             myChart = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: ['available bikes', 'avaliable stands'],
                 datasets: [{
                     label: 'Station Counts',
-                    data: [4, 5],
+                    data: [vals[0].available_bikes, vals[0].available_bike_stands],
                     backgroundColor: [
                         'rgba(153, 102, 255, 0.2)',
                         'rgba(255, 159, 64, 0.2)'
@@ -97,12 +114,68 @@ fetch("/details/" + y.value).then(response=> {
                 }
             }
         });
-    
+
         }
-).catch(err => {
-        console.log("ERROR",err)
-        })
-    return false;
+    ).catch(err => {
+            console.log("ERROR",err)
+            })
+    
+    // fecthing the average data 
+    fetch("/avgdetails/" + StationName).then(response=> {
+        console.log(response);
+        return response.json();
+
+    }).then(data => 
+            {
+            console.log("average: ", data);
+
+            // we need to extract the data and put into an array
+            available_bikes = [];
+            available_stands= [];
+            time = [];
+        
+            for (i = 0; i < data.length; i++) {
+                available_bikes[i] = data[i].available_bikes;
+                available_stands[i] = data[i].available_bike_stands;
+                date = new Date(data[i].last_update)
+                time[i] = date.toLocaleDateString('zh-Hans-CN');
+            }
+            // create the chart containing the data 
+            // rempve the current chart to place new one
+            ctx = document.getElementById('chart2').getContext('2d');
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+            // create new chart
+            myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: time,
+                datasets: [{
+                    label: 'available bikes',
+                    data: available_bikes,
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: 'green',
+                    fill: false,
+                }, {
+                label: "available stands",
+                data: available_stands,
+                borderColor: "red",
+                backgroundColor: "rgba(225,0,0,0.4)",
+                fill: false,
+            }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        }
+    ).catch(err => {
+            console.log("ERROR",err)
+            })
 }
 
 function getLocation() {

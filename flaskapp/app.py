@@ -17,6 +17,11 @@ app = Flask(__name__)
 def home():
   return render_template("index.html")
 
+# This function sets up the template for the homepage (index)
+@app.route("/information")
+def information():
+  return render_template("details.html")
+
 
 # This function sets up the template for the about page (content and structure to be determined)
 @app.route("/about")
@@ -56,23 +61,37 @@ def dynamic_bikes():
 @app.route("/details/<name>")
 def details(name):
 
-  # get the name form javascript
-  #names = request.args.values("station")
-
   # use the name in a query
   print(name)
-  #print(request.values.get.keys())
+
   query = f"""    
   select available_bike_stands, available_bikes, max(last_update) from available
   join stations on available.number = stations.number
   where stations.name = '{name}'"""
   print(query)
   # use the engine connection to query
-  with engine.connect() as con:
-      AV = pd.read_sql_query(query, con)
+  AV = pd.read_sql_query(query, engine)
 
   print(AV)
   return AV.to_json(orient='records')
+
+# get the average for last few hours
+@app.route("/avgdetails/<name>")
+def avgdetails(name):
+  # use the name in a query
+  print(name)
+
+  query = f"""    
+  select available_bike_stands, available_bikes, last_update from available
+  join stations on available.number = stations.number
+  where stations.name = '{name}'"""
+  print(query)
+  # use the engine connection to query
+  df = pd.read_sql_query(query, engine)
+  # get the mean of the days
+  res_df = df.set_index("last_update").resample("1d").mean()
+  res_df["last_update"] = res_df.index
+  return res_df.to_json(orient='records')
 
 if __name__ == "__main__":
     app.run(debug=True)
