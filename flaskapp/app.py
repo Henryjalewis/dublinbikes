@@ -102,14 +102,15 @@ def avgdetails(name):
 # get the most recent weather data
 @app.route("/weather")
 def getWeather():
-sql = f"""SELECT * FROM `jcdecaux-bikes`.weather
-WHERE
-time = (SELECT
-MAX(time)
-FROM
-    `jcdecaux-bikes`.weather)"""
-df = pd.read_sql(sql,engine)
-return df.to_json(orient='records')
+  sql = f"""SELECT * FROM `jcdecaux-bikes`.weather\
+  WHERE\
+  time = (SELECT\
+  MAX(time)\
+  FROM\
+      `jcdecaux-bikes`.weather)"""
+  df = pd.read_sql(sql, engine)
+  return df.to_json(orient='records')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
