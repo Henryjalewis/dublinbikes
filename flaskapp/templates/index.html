@@ -10,7 +10,6 @@
 
     <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
 
   <body onload="Drop()">
@@ -23,6 +22,11 @@
         <li>
           <a class="active" href="">
             <h1>Home</h1>
+          </a>
+        </li>
+        <li>
+          <a class="active" href="/route">
+            <h1>Route Planner</h1>
           </a>
         </li>
         <li>
@@ -39,9 +43,26 @@
     </div>
   </nav>
 
-  <!---- Content ----------------------->
-    
-  <div id="map"></div>
+  <div class="page-container">
+
+    <!---- Content ----------------------->
+    <div class="content">
+
+      <!---- Weather Content Information ----------------------->
+      <div id='day'>
+        <div class='date'></div>
+        <div class='icon' ></div>
+        <div class='type'></div>
+        <div class='humidity'></div>
+        <div class='temp'></div>
+        <div class='description'><span class='value'></span></div>
+        <div class='conditions'></div>
+        <div class='time'></div>
+      </div>
+
+
+      <!---- Mapping Content ----------------------->
+      <div id="map"></div>
 
   <div id="Drop">
     <!-- Create a form that is the drop down list of stations.
@@ -54,29 +75,30 @@
     </form>
   </div>   
 
-      
+
   <div >
       <h1 id="Chart">
       </h1>
-      
+
       <canvas id="myChart">
-      
+
       </canvas>
       </div>
 
 
-  <!---- Footer ----------------------->
+    </div>
 
-  <div id="footer">
-        <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+    <!---- Footer ----------------------->
+    <div id="footer">
+          <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+    </div>
+
   </div>
 
   <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
   <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD224wAWYY1UyMRJejq2fwRizrFMrAZ_mg&callback=initMap&libraries=&v=weekly"
+    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&libraries=&v=weekly"
   ></script>
-
-
 
   </body>
 

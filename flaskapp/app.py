@@ -15,8 +15,14 @@ app = Flask(__name__)
 # This function sets up the template for the homepage (index)
 @app.route("/")
 def home():
-  return render_template("index.html")
+  d = {'key': keys['googleMaps']['key']}
+  return render_template("index.html", **d)
 
+# This function sets up the template for the route planning page
+@app.route("/route")
+def route():
+  d = {'key': keys['googleMaps']['key']}
+  return render_template("route.html", **d)
 # This function sets up the template for the homepage (index)
 @app.route("/information")
 def information():

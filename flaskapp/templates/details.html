@@ -1,0 +1,100 @@
+<!DOCTYPE html5>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Dublin Bikes - Contact</title>
+
+    <!---- Favicon ----------------------->
+    <link rel="icon" type="ico" href="{{ url_for('static', filename = 'favicon.ico') }}">
+
+    <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script>
+        // run these function on open
+      function onOpen() {
+          selectStation();
+          Drop();
+      }
+      </script>
+      
+      <style>
+          #chart1 {
+              width: 50%;
+              float: left;
+          }
+      </style>
+  </head>
+    
+    <body onload="onOpen()">
+        
+        <!---- Navigation Bar ----------------------->
+        <nav class="navbar">
+            <div class="Title">Dublin Bikes Scheme</div>
+            <div class="navlinks">
+              <ul>
+                <li>
+                  <a class="active" href="/">
+                    <h1>Home</h1>
+                  </a>
+                </li>
+                <li>
+                  <a href="/about">
+                    <h1>About</h1>
+                  </a>
+                </li>
+                <li>
+                  <a href="/contact">
+                    <h1>Contact</h1>
+                  </a>
+                </li>
+              </ul>
+            </div>
+        </nav>
+        
+        <!-- Drop down menu -->
+          <div id="Drop">
+            <!-- Create a form that is the drop down list of stations.
+            Will use the submission to query for the details of the station-->
+            <form action="">
+              <label for="station">Choose a Station: </label>
+              <select id="station" name="station">
+              </select>
+              <input type="button" onclick="redirectStation()" value="GOGOGOGO">
+            </form>
+          </div> 
+    <!-- Station name of selected station -->
+        <div id="Title">
+            <h1></h1>
+        </div>
+        
+        <!-- Charts displayed -->
+        <div style="width:50%; float:right;">
+            <div id="Title"> </div>
+            <canvas id="chart2" style="float:left">
+            </canvas>
+        </div>
+        <div style="width:50%; float:right;">
+            <canvas id="chart1" style="float:left">
+            
+            </canvas>
+        </div>
+        
+        <!-- Prediction -->
+        <div id="Pred">
+        Here is how we predict
+        
+        </div>
+        
+          <!---- Footer ----------------------->
+
+      <div id="footer">
+            <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+      </div>
+        
+    </body>
+    
+</html>

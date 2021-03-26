@@ -1,0 +1,116 @@
+<!DOCTYPE html5>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Dublin Bikes - Route Planner</title>
+
+    <!---- Favicon ----------------------->
+    <link rel="icon" type="ico" href="{{ url_for('static', filename = 'favicon.ico') }}">
+
+    <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
+
+    <script>
+      function initMap() {
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer();
+      var dublin = new google.maps.LatLng(53.346, -6.26986);
+      var mapOptions = {
+        zoom:7,
+        center: dublin
+      }
+      var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+      directionsRenderer.setMap(map);
+    }
+
+    function calcRoute() {
+      var start = document.getElementById('start').value;
+      var end = document.getElementById('end').value;
+      var request = {
+        origin: start,
+        destination: end,
+        travelMode: 'DRIVING'
+      };
+      directionsService.route(request, function(result, status) {
+        if (status == 'OK') {
+          directionsRenderer.setDirections(result);
+        }
+      });
+    }
+    </script>
+  </head>
+  
+  <body>
+
+  <!---- Navigation Bar ----------------------->
+  <nav class="navbar">
+    <div class="Title">Dublin Bikes Scheme</div>
+    <div class="navlinks">
+      <ul>
+        <li>
+          <a href="/">
+            <h1>Home</h1>
+          </a>
+        </li>
+        <li>
+          <a class="active" href="">
+            <h1>Route Planner</h1>
+          </a>
+        </li>
+        <li>
+          <a class="active" href="/about">
+            <h1>About</h1>
+          </a>
+        </li>
+        <li>
+          <a class="active" href="/contact">
+            <h1>Contact</h1>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="page-container">
+
+    <!---- Content ----------------------->
+    <div class="content">
+
+      <h1>Plan your route</h1>
+      <p>Enter a starting point and destination and we will find the best route using the dublin bikes network</p>
+      <br>
+
+      <div>
+        <strong>Start: </strong>
+        <select id="start" onchange="calcRoute();">
+          <option value="dublin">Dublin</option>
+          <option value="galway">Galway</option>
+          <option value="belfast">Belfast</option>
+          <option value="cork">Cork</option>
+        </select>
+        <strong>End: </strong>
+        <select id="end" onchange="calcRoute();">
+          <option value="dublin">Dublin</option>
+          <option value="galway">Galway</option>
+          <option value="belfast">Belfast</option>
+          <option value="cork">Cork</option>
+        </select>
+        </div>
+
+        <div id="map"></div>
+
+    </div>
+
+    <!---- Footer  ----------------------->
+    <div id="footer">
+      <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+    </div>
+  </div>
+
+  <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&libraries=&v=weekly"
+  ></script>
+
+  </body>
+</html>
