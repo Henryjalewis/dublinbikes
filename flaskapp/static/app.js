@@ -181,3 +181,17 @@ function selectStation(){
 function getLocation() {
     
 }
+
+async function fetchWeather(){
+    const response = await fetch("/weather");
+    const weatherData = await response.json();
+    return weatherData;
+}
+
+fetchWeather().then(weatherData => {
+    weatherData
+    console.log(weatherData);
+    console.log(weatherData[0].description);
+}).catch(err=> {
+    console.log("OOPS", err);
+})
