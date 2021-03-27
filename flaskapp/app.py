@@ -18,21 +18,21 @@ def home():
   d = {'key': keys['googleMaps']['key']}
   return render_template("index.html", **d)
 
+# This function sets up the template for the analytics page
 @app.route("/analytics")
 def analytics():
   return render_template("analytics.html")
+
+# This function sets up the template for the analytics station details page
+@app.route("/analytics/information")
+def information():
+  return render_template("details.html")
 
 # This function sets up the template for the route planning page
 @app.route("/route")
 def route():
   d = {'key': keys['googleMaps']['key']}
   return render_template("route.html", **d)
-# This function sets up the template for the homepage (index)
-
-@app.route("/information")
-def information():
-  return render_template("details.html")
-
 
 # This function sets up the template for the about page (content and structure to be determined)
 @app.route("/about")

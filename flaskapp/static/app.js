@@ -64,9 +64,9 @@ function redirectStation() {
     y = document.getElementById("station");
     // save the variable in the tab name    
     sessionStorage.setItem("stationName", y.value);
-    if (window.location.href != "/information") {
+    if (window.location.href != "analytics/information") {
         // open new window at url detail
-        location.href ="/information";
+        location.href ="analytics/information";
     } else {
         selectStation();
     }
