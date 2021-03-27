@@ -12,7 +12,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
   </head>
 
-  <body>
+  <body onload="Drop()">
 
   <!---- Navigation Bar ----------------------->
   <nav class="navbar">
@@ -20,12 +20,12 @@
     <div class="navlinks">
       <ul>
         <li>
-          <a class="active-link" href="">
-            <h1>Home</h1>
+          <a class="inactive-link" href="/">
+            <h1>Map</h1>
           </a>
         </li>
         <li>
-          <a class="inactive-link" href="/analytics">
+          <a class="active-link" href="">
             <h1>Analytics</h1>
           </a>
         </li>
@@ -53,41 +53,39 @@
     <!---- Content ----------------------->
     <div class="content">
 
-      <!---- Weather Content Information ----------------------->
+    <h1>Analytical data on dublin bikes network</h1>
+    <p>Choose a station below to receive detailed analytics</p>
+    <br>
 
-      <div id="weather_wrapper">
-        <div class="weatherCard">
-          <div class="currentTemp">
-              <span class="temp">23&deg;</span>
-              <span class="location">Dublin</span>
-          </div>
-          <div class="currentWeather">
-              <span class="conditions">&#xf00d;</span>
-              <div class="info">
-                <span class="rain">1.3 MM</span>
-                <span class="wind">10 MPH</span>
-              </div>
-          </div>
-        </div>
+    <div id="Drop">
+      <!-- Create a form that is the drop down list of stations.
+      Will use the submission to query for the details of the station-->
+      <form action="">
+        <label for="station">Choose a Station: </label>
+        <select id="station" name="station">
+        </select>
+        <input type="button" onclick="redirectStation()" value="Get Analytics">
+      </form>
+    </div>   
+
+
+    <div >
+      <h1 id="Chart">
+      </h1>
+
+      <canvas id="myChart">
+
+      </canvas>
       </div>
-
-
-      <!---- Mapping Content ----------------------->
-      <div id="map"></div>
 
     </div>
 
     <!---- Footer ----------------------->
     <div id="footer">
-      <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+          <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
     </div>
 
   </div>
-
-  <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-  <script async
-    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&libraries=&v=weekly"
-  ></script>
 
   </body>
 

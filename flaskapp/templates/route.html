@@ -12,26 +12,26 @@
 
     <script>
       function initMap() {
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer();
-      var dublin = new google.maps.LatLng(53.346, -6.26986);
-      var mapOptions = {
-        zoom:7,
-        center: dublin
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        var dublin = new google.maps.LatLng(53.346, -6.26986);
+        var mapOptions = {
+          zoom:13.9,
+          center: dublin
+        }
+        var map = new google.maps.Map(document.getElementById('map'), mapOptions);
+        directionsRenderer.setMap(map);
       }
-      var map = new google.maps.Map(document.getElementById('map'), mapOptions);
-      directionsRenderer.setMap(map);
-    }
 
-    function calcRoute() {
-      var start = document.getElementById('start').value;
-      var end = document.getElementById('end').value;
-      var request = {
-        origin: start,
-        destination: end,
-        travelMode: 'DRIVING'
-      };
-      directionsService.route(request, function(result, status) {
+      function calcRoute() {
+        var start = document.getElementById('start').value;
+        var end = document.getElementById('end').value;
+        var request = {
+          origin: start,
+          destination: end,
+          travelMode: 'BICYCLING'
+        };
+        directionsService.route(request, function(result, status) {
         if (status == 'OK') {
           directionsRenderer.setDirections(result);
         }
@@ -48,22 +48,27 @@
     <div class="navlinks">
       <ul>
         <li>
-          <a href="/">
-            <h1>Home</h1>
+          <a class="inactive-link" href="/">
+            <h1>Map</h1>
           </a>
         </li>
         <li>
-          <a class="active" href="">
+          <a class="active-link" href="/analytics">
+            <h1>Analytics</h1>
+          </a>
+        </li>
+        <li>
+          <a class="inactive-link" href="">
             <h1>Route Planner</h1>
           </a>
         </li>
         <li>
-          <a class="active" href="/about">
+          <a class="inactive-link" href="/about">
             <h1>About</h1>
           </a>
         </li>
         <li>
-          <a class="active" href="/contact">
+          <a class="inactive-link" href="/contact">
             <h1>Contact</h1>
           </a>
         </li>
@@ -83,17 +88,13 @@
       <div>
         <strong>Start: </strong>
         <select id="start" onchange="calcRoute();">
-          <option value="dublin">Dublin</option>
-          <option value="galway">Galway</option>
-          <option value="belfast">Belfast</option>
-          <option value="cork">Cork</option>
+          <option value="rathmines">Rathmines</option>
+          <option value="phibsborough">Phibsborough</option>
         </select>
         <strong>End: </strong>
         <select id="end" onchange="calcRoute();">
-          <option value="dublin">Dublin</option>
-          <option value="galway">Galway</option>
-          <option value="belfast">Belfast</option>
-          <option value="cork">Cork</option>
+          <option value="rathmines">Rathmines</option>
+          <option value="phibsborough">Phibsborough</option>
         </select>
         </div>
 
