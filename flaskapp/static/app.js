@@ -199,9 +199,32 @@ async function fetchWeather(){
 }
 
 fetchWeather().then(weatherData => {
-    weatherData
-    console.log(weatherData);
-    console.log(weatherData[0].description);
+    // Temperature from Kelvin to Celcius
+    var tempCelcius = Math.floor(weatherData[0].feels_like-273.16);
+    // Windspeed in MPH
+    var windSpeed = Math.floor((weatherData[0].wind_speed) * 2.23694);
+    // get year and time
+    var timestamp = weatherData[0].time;
+    var date = new Date(timestamp);
+    // days of the week
+
+    var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Aug','Sept', 'Oct', 'Nov', 'Dec'];
+    var dayName = days[date.getDay()];
+    var month = months[date.getMonth()]
+    var dateMonth = dayName + " - " + month + " - " + date.getDate();
+    console.log(dateMonth)
+    // Humidity
+    var humidity = weatherData[0].humidity;
+    var iconCode = weatherData[0].icon;
+    var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+
+    document.getElementById("dateTime").innerHTML = dateMonth;
+    document.getElementById("temp").innerHTML = tempCelcius + "&deg";
+    document.getElementById("wind").innerHTML = windSpeed + " MPH";
+    document.getElementById("humidity").innerHTML = humidity + " %";
+    document.getElementById("imageBox").src = iconUrl;
+
 }).catch(err=> {
     console.log("OOPS", err);
 })
