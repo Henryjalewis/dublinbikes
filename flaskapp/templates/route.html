@@ -11,6 +11,108 @@
     <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
 
     <script>
+
+      let start;
+      let end;
+
+      function calcRoute() {
+        fetch("/stations").then(response => {
+            return response.json();
+          }).then (data => {
+            
+            var closestDistance = null;
+            var firstStation = null;
+            var checked = 0;
+
+            data.forEach(station => {
+              var destination = new google.maps.LatLng(station.pos_lat, station.pos_long);
+              var service = new google.maps.DistanceMatrixService();
+              service.getDistanceMatrix(
+              {
+                origins: [start.name],
+                destinations: [destination],
+                travelMode: google.maps.TravelMode.WALKING,
+                unitSystem: google.maps.UnitSystem.METRIC
+              }, function (response, status) {
+                  checked += 1;
+                  if (status != google.maps.DistanceMatrixStatus.OK) {
+                    console.log("ERROR")
+                  } else if (station.available_bikes != 0) {
+                    if (closestDistance == null) {
+                      closestDistance = response.rows[0].elements[0].distance.value;
+                      firstStation = station;
+                    } else if (closestDistance > response.rows[0].elements[0].distance.value) {
+                      closestDistance = response.rows[0].elements[0].distance.value;
+                      firstStation = station;
+                    }
+                    if (checked == Object.keys(data).length) {
+                      closestDistance = null;
+                      var secondStation = null;
+                      checked = 0;
+                      data.forEach(station => {
+                        var destination = new google.maps.LatLng(station.pos_lat, station.pos_long);
+                        var service = new google.maps.DistanceMatrixService();
+                        service.getDistanceMatrix(
+                        {
+                          origins: [end.name],
+                          destinations: [destination],
+                          travelMode: google.maps.TravelMode.WALKING,
+                          unitSystem: google.maps.UnitSystem.METRIC
+                        }, function (response, status) {
+                            checked += 1;
+                            if (status != google.maps.DistanceMatrixStatus.OK) {
+                              console.log("ERROR")
+                            } else if (station.available_bike_stands != 0) {
+                              if (closestDistance == null) {
+                                closestDistance = response.rows[0].elements[0].distance.value;
+                                secondStation = station;
+                              } else if (closestDistance > response.rows[0].elements[0].distance.value) {
+                                closestDistance = response.rows[0].elements[0].distance.value;
+                                secondStation = station;
+                              }
+                              if (checked == Object.keys(data).length) {
+                                var start = document.getElementById('origin').value;
+                                var end = document.getElementById('destination').value;
+                                var request = {
+                                  origin: start,
+                                  destination: end,
+                                  waypoints: [
+                                    {
+                                      location: new google.maps.LatLng(firstStation.pos_lat, firstStation.pos_long),
+                                      stopover: true
+                                    },{
+                                      location: new google.maps.LatLng(secondStation.pos_lat, secondStation.pos_long),
+                                      stopover: true
+                                    }],
+                                  travelMode: 'BICYCLING'
+                                };
+                                directionsService.route(request, function(result, status) {
+                                  if (status == 'OK') {
+                                    directionsRenderer.setDirections(result);
+                                  }
+                                });
+                              }
+                            }
+                          }
+                        );
+
+                      });
+                    }
+                  }
+                }
+              );
+
+            });
+            
+          }).catch(err => {
+            console.log("ERROR",err);
+          })
+
+      };
+
+      let map;
+      let autocomplete;
+
       function initMap() {
         directionsService = new google.maps.DirectionsService();
         directionsRenderer = new google.maps.DirectionsRenderer();
@@ -21,22 +123,87 @@
         }
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
         directionsRenderer.setMap(map);
+
+        // places autocomplete for origin field
+        autocompleteOrigin = new google.maps.places.Autocomplete(
+          document.getElementById('origin'),
+          {
+            location: dublin,
+            radius: 5000,
+            types: ['establishment', 'geocode'],
+            componentRestrictions: {'country': ['IE']},
+            fields: ['place_id', 'geometry', 'name']
+          });
+        autocompleteOrigin.addListener('place_changed', onOriginChanged);
+
+        // places autocomplete for destination field
+        autocompleteDestination = new google.maps.places.Autocomplete(
+          document.getElementById('destination'),
+          {
+            location: dublin,
+            radius: 5000,
+            types: ['establishment', 'geocode'],
+            componentRestrictions: {'country': ['IE']},
+            fields: ['place_id', 'geometry', 'name']
+          });
+        autocompleteDestination.addListener('place_changed', onDestinationChanged);
       }
 
-      function calcRoute() {
-        var start = document.getElementById('start').value;
-        var end = document.getElementById('end').value;
-        var request = {
-          origin: start,
-          destination: end,
-          travelMode: 'BICYCLING'
-        };
-        directionsService.route(request, function(result, status) {
-        if (status == 'OK') {
-          directionsRenderer.setDirections(result);
+      // function for handling origin change
+      function onOriginChanged() {
+        var place = autocompleteOrigin.getPlace();
+
+        if (!place.geometry) {
+          document.getElementById('origin').placeholder = "Origin";
+        } else {
+          start = place;
         }
-      });
-    }
+      }
+
+      // function for handling destination change
+      function onDestinationChanged() {
+        var place = autocompleteDestination.getPlace();
+
+        if (!place.geometry) {
+          document.getElementById('destination').placeholder = "Origin";
+        } else {
+          end = place;
+        }
+      }
+
+        // function calculateDistance() {
+        //   var service = new google.maps.DistanceMatrixService();
+        //   var origin = document.getElementById('start').value;
+        //   var destination = document.getElementById('end').value;
+        //   service.getDistanceMatrix(
+        //   {
+        //     origins: [origin],
+        //     destinations: [destination],
+        //     travelMode: google.maps.TravelMode.BICYCLING,
+        //     unitSystem: google.maps.UnitSystem.METRIC,
+        //     avoidHighways: false,
+        //     avoidTolls: false
+        //   }, callback);
+        // }
+
+        // function callback(response, status) {
+        //   if (status != google.maps.DistanceMatrixStatus.OK) {
+        //     console.log("ERROR", err)
+        //   } else {
+        //     console.log(response.rows[0].elements[0].distance.text)
+        //     // var origin = response.originAddresses[0];
+        //     // var destination = response.destinationAddresses[0];
+        //     // if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+        //     //   $('#result').html("Better get on a plane. There are no roads between " 
+        //     //                     + origin + " and " + destination);
+        //     // } else {
+        //     //   var distance = response.rows[0].elements[0].distance;
+        //     //   var distance_value = distance.value;
+        //     //   var distance_text = distance.text;
+        //     //   var miles = distance_text.substring(0, distance_text.length - 3);
+        //     //   $('#result').html("It is " + miles + " miles from " + origin + " to " + destination);
+        //   }
+        // }
     </script>
   </head>
   
@@ -85,18 +252,23 @@
       <p>Enter a starting point and destination and we will find the best route using the dublin bikes network</p>
       <br>
 
-      <div>
+      <!-- <div>
         <strong>Start: </strong>
-        <select id="start" onchange="calcRoute();">
+        <select id="origin">
           <option value="rathmines">Rathmines</option>
           <option value="phibsborough">Phibsborough</option>
         </select>
         <strong>End: </strong>
-        <select id="end" onchange="calcRoute();">
+        <select id="destination">
           <option value="rathmines">Rathmines</option>
           <option value="phibsborough">Phibsborough</option>
         </select>
-        </div>
+        <button onclick="calcDistance()">find closest station</button>
+      </div> -->
+
+      <input id="origin" placeholder="Origin" type="text">
+      <input id="destination" placeholder="Destination" type="text">
+      <button onclick="calcRoute()">Calculate Route</button>
 
         <div id="map"></div>
 
@@ -110,7 +282,7 @@
 
   <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
   <script async
-    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&libraries=&v=weekly"
+    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&libraries=places"
   ></script>
 
   </body>
