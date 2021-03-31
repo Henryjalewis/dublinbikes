@@ -68,13 +68,6 @@ option {
   font-size: 200%;
 }
 
-/* Styling for the map container */
-#map {
-  height: 700px;
-  width: 95%;
-  padding-bottom: 30px;
-  margin: 25px;
-}
 
 /* page container styling */
 .page-container {
@@ -82,13 +75,25 @@ option {
   min-height: 100%;
 }
 
+/* Styling for the map container */
+#map {
+  height: 700px;
+  width: 95%;
+  padding-bottom: 30px;
+  margin: 25px;
+  position: relative;
+}
 
 /* Weather styling*/
 
 #weather_wrapper{
+    border-radius: 1px;
     width: 30px;
-    margin: 5px 25px 5px 25px;
+    margin-top: -15px;
+    margin-left: 30px;
     transform: scale(0.75);
+    position: absolute;
+    z-index: 99;
 }
 #weatherCard{
     width: 400px;
@@ -167,10 +172,10 @@ option {
 }
 #humidity::before{
     display: block;
-    content: '\f053';
+    content: '\224B';
     font-family: weathericons;
     font-size: 40px;
-    left: 4px;
+    left: 2px;
     top: -2px;
     position: absolute;
 }
@@ -190,7 +195,6 @@ option {
     position: absolute;
     top: 5px;
 }
-
 
 /* page content styling */
 .content {
