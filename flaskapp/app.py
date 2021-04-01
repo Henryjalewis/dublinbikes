@@ -132,9 +132,9 @@ def allavg():
   select available_bike_stands, available_bikes, last_update from available
   where Day(last_update) = Day(curdate())
   """
-  print(query2)
+  print(query)
   # use the engine connection to query
-  df = pd.read_sql_query(query2, engine)
+  df = pd.read_sql_query(query, engine)
   # get the mean of the days
   res_df = df.set_index("last_update").resample("1h").mean()
   # query for yesterdays data
