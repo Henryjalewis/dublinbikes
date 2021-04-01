@@ -59,37 +59,39 @@
         
         <div class="page-container">
     <!-- Station name of selected station -->
-            <div class="content">
+            <div class="content" >
                 <div >
                     <h1 id="Title"></h1>
                 </div>
 
                 <!-- Charts displayed -->
-                <div >
-                    <div style="width:50%; float:left;">
-
-                        <canvas id="chart2" style="float:right">
+                <div class="chartdivs">
+                    <div class="chart2">
+                        <h3> Daily Averages</h3>
+                        <canvas id="chart2" style="float:right;">
                         </canvas>
                     </div>
 
-                    <div style="width:50%; float:left;">
-                        <canvas id="chart1" style="float:right">
-
+                    <div class="chart1">
+                        <h3> Current available data</h3>
+                        <canvas id="chart1" style="float:left;">
+                        </canvas>
+                    </div>
+                
+                
+                
+                    <div class="chart3">
+                        <h3> Hourly Average of Previous day</h3>
+                        <canvas id="chart3" style="float:right;">
                         </canvas>
                     </div>
 
-
-                    <div style="width:50%; float:left;">
-                        <canvas id="chart3" style="float:right">
-                        </canvas>
-                    </div>
-
-                    <div style="width:50%; float:left;">
-                        <canvas id="chart4" style="float:right">
+                    <div class="chart4">
+                        <h3> Today's Hourly average</h3>
+                        <canvas id="chart4" style="float:left;">
                         </canvas>
                     </div>
                 </div>
-
                 <!-- Prediction -->
                 <div id="Pred" style="float:left" >
 

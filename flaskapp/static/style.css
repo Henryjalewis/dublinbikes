@@ -202,6 +202,29 @@ option {
   padding-bottom: 4rem;
 }
 
+.chartdivs{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+    "box1 box2"
+    "box3 box4";
+}
+
+.chart1{
+    grid-area: box1;
+}
+.chart2{
+    grid-area: box2;
+}
+.chart3{
+    grid-area: box3;
+}
+.chart4{
+    grid-area: box4;
+}
+
 /* page footer styling */
 #footer {
   position: absolute;
