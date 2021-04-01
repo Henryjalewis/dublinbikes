@@ -86,7 +86,7 @@ def details(name):
   print(AV)
   return AV.to_json(orient='records')
 
-# get the average for last few hours
+# get the average for last few hours Get the day average ofet hestation over the days
 @app.route("/avgdetails/<name>")
 def avgdetails(name):
   # use the name in a query
@@ -104,7 +104,7 @@ def avgdetails(name):
   res_df["last_update"] = res_df.index
   return res_df.to_json(orient='records')
 
-# get the average for last few hours
+# get the average for the station on the current day
 @app.route("/dayavg/<name>")
 def dayavg(name):
   # use the name in a query
@@ -123,11 +123,11 @@ def dayavg(name):
   res_df["last_update"] = res_df.index
   return res_df.to_json(orient='records')
 
-# get the average for for the day for all stations
+# get the hourly average for the day for all stations
 @app.route("/houravg")
 def allavg():
   # use the name in a query
-
+  # query for today's data
   query = """    
   select available_bike_stands, available_bikes, last_update from available
   where Day(last_update) = Day(curdate())
@@ -137,6 +137,27 @@ def allavg():
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
   res_df = df.set_index("last_update").resample("1h").mean()
+  # query for yesterdays data
+  res_df["last_update"] = res_df.index
+  return res_df.to_json(orient='records')
+
+# get the average for for the day for all stations
+@app.route("/pastavg/<name>")
+def yesterdayavg(name):
+  # use the name in a query
+  # query for yesterday's data
+  query = f"""    
+  select available_bike_stands, available_bikes, last_update from available
+  join stations on available.number = stations.number
+  where stations.name = '{name}'
+  and Day(last_update) = Day(subdate(curdate(),1))
+  """
+  print(query)
+  # use the engine connection to query
+  df = pd.read_sql_query(query, engine)
+  # get the mean of the days
+  res_df = df.set_index("last_update").resample("1h").mean()
+  # query for yesterdays data
   res_df["last_update"] = res_df.index
   return res_df.to_json(orient='records')
 

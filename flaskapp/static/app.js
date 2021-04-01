@@ -206,11 +206,69 @@ function selectStation(){
                 available_bikes[i] = data[i].available_bikes;
                 available_stands[i] = data[i].available_bike_stands;
                 date = new Date(data[i].last_update)
-                time[i] = date.getHours();
+                time[i] = date.toLocaleTimeString('en-US');
             }
             // create the chart containing the data 
             // rempve the current chart to place new one
-            ctx = document.getElementById('hourChart').getContext('2d');
+            ctx = document.getElementById('chart4').getContext('2d');
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+            // create line chart
+            myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: time,
+                datasets: [{
+                    label: 'available bikes',
+                    data: available_bikes,
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: 'green',
+                    fill: false,
+                }, {
+                label: "available stands",
+                data: available_stands,
+                borderColor: "red",
+                backgroundColor: "rgba(225,0,0,0.4)",
+                fill: false,
+            }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        }
+    ).catch(err => {
+            console.log("ERROR",err)
+            });
+    
+    
+    // fecthing the average data 
+    fetch("/pastavg/" + StationName).then(response=> {
+        console.log(response);
+        return response.json();
+
+    }).then(data => 
+            {
+            console.log("average: ", data);
+
+            // we need to extract the data and put into an array
+            available_bikes = [];
+            available_stands= [];
+            time = [];
+            
+            for (i = 0; i < data.length; i++) {
+                available_bikes[i] = data[i].available_bikes;
+                available_stands[i] = data[i].available_bike_stands;
+                date = new Date(data[i].last_update)
+                time[i] = date.toLocaleTimeString('en-US');
+            }
+            // create the chart containing the data 
+            // rempve the current chart to place new one
+            ctx = document.getElementById('chart3').getContext('2d');
             ctx.clearRect(0, 0, ctx.width, ctx.height);
             // create line chart
             myChart = new Chart(ctx, {
@@ -266,7 +324,7 @@ function defaultChart() {
                 available_bikes[i] = data[i].available_bikes;
                 available_stands[i] = data[i].available_bike_stands;
                 date = new Date(data[i].last_update)
-                time[i] = date.getHours();
+                time[i] = date.toLocaleTimeString('en-US');
             }
             // create the chart containing the data 
             // rempve the current chart to place new one
