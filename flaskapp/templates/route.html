@@ -11,6 +11,13 @@
     <link href="{{ url_for('static', filename = 'style.css') }}" rel = "stylesheet" type="text/css" />
 
     <script>
+
+      let start;
+      let end;
+      let map;
+      let autocomplete;
+
+      // init map function, runs when google api script loads
       function initMap() {
         directionsService = new google.maps.DirectionsService();
         directionsRenderer = new google.maps.DirectionsRenderer();
@@ -21,22 +28,175 @@
         }
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
         directionsRenderer.setMap(map);
+
+        // places autocomplete for origin field
+        autocompleteOrigin = new google.maps.places.Autocomplete(
+          document.getElementById('origin'),
+          {
+            location: dublin,
+            radius: 5000,
+            types: ['establishment', 'geocode'],
+            componentRestrictions: {'country': ['IE']},
+            fields: ['place_id', 'geometry', 'name', 'formatted_address']
+          });
+        autocompleteOrigin.addListener('place_changed', onOriginChanged);
+
+        // places autocomplete for destination field
+        autocompleteDestination = new google.maps.places.Autocomplete(
+          document.getElementById('destination'),
+          {
+            location: dublin,
+            radius: 5000,
+            types: ['establishment', 'geocode'],
+            componentRestrictions: {'country': ['IE']},
+            fields: ['place_id', 'geometry', 'name']
+          });
+        autocompleteDestination.addListener('place_changed', onDestinationChanged);
       }
 
-      function calcRoute() {
-        var start = document.getElementById('start').value;
-        var end = document.getElementById('end').value;
-        var request = {
-          origin: start,
-          destination: end,
-          travelMode: 'BICYCLING'
-        };
-        directionsService.route(request, function(result, status) {
-        if (status == 'OK') {
-          directionsRenderer.setDirections(result);
+      // function for handling origin change
+      function onOriginChanged() {
+        var place = autocompleteOrigin.getPlace();
+
+        if (!place.geometry) {
+          document.getElementById('origin').placeholder = "Origin";
+        } else {
+          var lat = place.geometry.location.lat()
+          var lng = place.geometry.location.lng()
+          start = { lat: lat, lng: lng }
         }
-      });
-    }
+      }
+
+      // function for handling destination change
+      function onDestinationChanged() {
+        var place = autocompleteDestination.getPlace();
+
+        if (!place.geometry) {
+          document.getElementById('destination').placeholder = "Origin";
+        } else {
+          var lat = place.geometry.location.lat()
+          var lng = place.geometry.location.lng()
+          end = { lat: lat, lng: lng }
+        }
+      }
+
+      // function for calculating the route through available bike stands
+      function calcRoute() {
+
+        // fetch data for all the stations
+        fetch("/stations").then(response => {
+          return response.json();
+        }).then (data => {
+          
+          // initialise variables used for checking the first station to route through
+          var closestDistance = null;
+          var firstStation = null;
+          var checked = 0;
+
+          // iterate through stations to find closest station to starting position
+          data.forEach(station => {
+            var destination = new google.maps.LatLng(station.pos_lat, station.pos_long);
+            var service = new google.maps.DistanceMatrixService();
+            // use google distance matrix API to find distance, then handle response in callback function
+            service.getDistanceMatrix(
+            {
+              origins: [start],
+              destinations: [destination],
+              travelMode: google.maps.TravelMode.WALKING,
+              unitSystem: google.maps.UnitSystem.METRIC
+            }, function (response, status) {
+                // increment check counter to know when last callback is complete
+                checked += 1;
+                // check that distance matric returns ok
+                if (status != google.maps.DistanceMatrixStatus.OK) {
+                  console.log("ERROR")
+                // then check if there are bikes available
+                } else if (station.available_bikes != 0) {
+                  // if both checks ok, find shortest distance and add to previously initialised variable
+                  if (closestDistance == null) {
+                    closestDistance = response.rows[0].elements[0].distance.value;
+                    firstStation = station;
+                  } else if (closestDistance > response.rows[0].elements[0].distance.value) {
+                    closestDistance = response.rows[0].elements[0].distance.value;
+                    firstStation = station;
+                  }
+                  // when last callback runs, move on to finding second station where bike will be droped off
+                  if (checked == Object.keys(data).length) {
+
+                    // initialise variables used for checking the second station to route through
+                    closestDistance = null;
+                    var secondStation = null;
+                    checked = 0;
+
+                    // iterate through stations to find closest station to ending position
+                    data.forEach(station => {
+                      var destination = new google.maps.LatLng(station.pos_lat, station.pos_long);
+                      var service = new google.maps.DistanceMatrixService();
+                      // use google distance matrix API to find distance, then handle response in callback function
+                      service.getDistanceMatrix(
+                      {
+                        origins: [end],
+                        destinations: [destination],
+                        travelMode: google.maps.TravelMode.WALKING,
+                        unitSystem: google.maps.UnitSystem.METRIC
+                      }, function (response, status) {
+                          // increment check counter to know when last callback is complete
+                          checked += 1;
+                          // check that distance matric returns ok
+                          if (status != google.maps.DistanceMatrixStatus.OK) {
+                            console.log("ERROR")
+                          // then check if there are empty stands available
+                          } else if (station.available_bike_stands != 0) {
+                            // if both checks ok, find shortest distance and add to previously initialised variable
+                            if (closestDistance == null) {
+                              closestDistance = response.rows[0].elements[0].distance.value;
+                              secondStation = station;
+                            } else if (closestDistance > response.rows[0].elements[0].distance.value) {
+                              closestDistance = response.rows[0].elements[0].distance.value;
+                              secondStation = station;
+                            }
+                            // when last callback runs, move on to drawing route on map
+                            if (checked == Object.keys(data).length) {
+
+                              // create route request, including start/end and two stations to route through
+                              var request = {
+                                origin: document.getElementById('origin').value,
+                                destination: document.getElementById('destination').value,
+                                waypoints: [
+                                  {
+                                    location: new google.maps.LatLng(firstStation.pos_lat, firstStation.pos_long),
+                                    stopover: true
+                                  },{
+                                    location: new google.maps.LatLng(secondStation.pos_lat, secondStation.pos_long),
+                                    stopover: true
+                                  }],
+                                travelMode: ['BICYCLING']
+                              };
+                              // call directions API and draw to map
+                              directionsService.route(request, function(result, status) {
+                                if (status == 'OK') {
+                                  directionsRenderer.setDirections(result);
+                                }
+                              });
+                            }
+                          }
+                        }
+                      );
+
+                    });
+                  }
+                }
+              }
+            );
+
+          });
+          
+        }).catch(err => {
+          console.log("ERROR",err);
+        })
+
+      };
+
     </script>
   </head>
   
@@ -85,18 +245,9 @@
       <p>Enter a starting point and destination and we will find the best route using the dublin bikes network</p>
       <br>
 
-      <div>
-        <strong>Start: </strong>
-        <select id="start" onchange="calcRoute();">
-          <option value="rathmines">Rathmines</option>
-          <option value="phibsborough">Phibsborough</option>
-        </select>
-        <strong>End: </strong>
-        <select id="end" onchange="calcRoute();">
-          <option value="rathmines">Rathmines</option>
-          <option value="phibsborough">Phibsborough</option>
-        </select>
-        </div>
+      <input id="origin" placeholder="Origin" type="text">
+      <input id="destination" placeholder="Destination" type="text">
+      <button onclick="calcRoute()">Calculate Route</button>
 
         <div id="map"></div>
 
@@ -110,7 +261,7 @@
 
   <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
   <script async
-    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&libraries=&v=weekly"
+    src="https://maps.googleapis.com/maps/api/js?key={{key}}&callback=initMap&libraries=places"
   ></script>
 
   </body>
