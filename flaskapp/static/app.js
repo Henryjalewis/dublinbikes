@@ -248,7 +248,7 @@ function selectStation(){
 }
 
 function defaultChart() {
-           // fecthing the average data 
+    // fecthing the average data 
     fetch("/houravg").then(response=> {
         console.log(response);
         return response.json();

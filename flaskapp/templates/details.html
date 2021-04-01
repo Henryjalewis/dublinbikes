@@ -23,78 +23,88 @@
     
     <body onload="selectStation()">
         
-        <!---- Navigation Bar ----------------------->
-        <nav class="navbar">
-            <div class="Title">Dublin Bikes Scheme</div>
-            <div class="navlinks">
-              <ul>
-                <li>
-                  <a class="active" href="/">
-                    <h1>Map</h1>
-                  </a>
-                </li>
-                <li>
-                  <a href="/analytics">
-                    <h1>Analytics</h1>
-                  </a>
-                </li>
-                <li>
-                  <a href="/route">
-                    <h1>Route Planner</h1>
-                  </a>
-                </li>
-                <li>
-                  <a href="/about">
-                    <h1>About</h1>
-                  </a>
-                </li>
-                <li>
-                  <a href="/contact">
-                    <h1>Contact</h1>
-                  </a>
-                </li>
-              </ul>
-            </div>
-        </nav>
+      <!---- Navigation Bar ----------------------->
+      <nav class="navbar">
+          <div class="Title">Dublin Bikes Scheme</div>
+          <div class="navlinks">
+            <ul>
+              <li>
+                <a class="active" href="/">
+                  <h1>Map</h1>
+                </a>
+              </li>
+              <li>
+                <a href="/analytics">
+                  <h1>Analytics</h1>
+                </a>
+              </li>
+              <li>
+                <a href="/route">
+                  <h1>Route Planner</h1>
+                </a>
+              </li>
+              <li>
+                <a href="/about">
+                  <h1>About</h1>
+                </a>
+              </li>
+              <li>
+                <a href="/contact">
+                  <h1>Contact</h1>
+                </a>
+              </li>
+            </ul>
+          </div>
+      </nav>
         
-        <!-- Drop down menu -->
+      <div class="page-container">
+
+        <!---- Content ----------------------->
+        <div class="content">
+
+          <!-- Drop down menu -->
           <div id="Drop">
+          </div>
             <!-- Create a form that is the drop down list of stations.
             Will use the submission to query for the details of the station-->
 
-    <!-- Station name of selected station -->
-        <div id="Title">
+          <!-- Station name of selected station -->
+          <div id="Title">
             <h1></h1>
-        </div>
+          </div>
         
-        <!-- Charts displayed -->
-        <div style="width:50%; float:right;">
-            <div id="Title"> </div>
-            <canvas id="chart2" style="float:left">
-            </canvas>
-        </div>
-        <div style="width:50%; float:right;">
-            <canvas id="chart1" style="float:left">
-            
-            </canvas>
-        </div>
-        <div style="width:50%;">
-            
-            <canvas id="hourChart">
-            
-            </canvas>
-        </div>
+          <!-- Charts displayed -->
+          <div style="width:50%; float:right;">
+              <div id="Title"> </div>
+              <canvas id="chart2" style="float:left">
+              </canvas>
+          </div>
+          <div style="width:50%; float:right;">
+              <canvas id="chart1" style="float:left">
+              
+              </canvas>
+          </div>
+          <div style="width:50%;">
+              
+              <canvas id="hourChart">
+              
+              </canvas>
+          </div>
         
-        <!-- Prediction -->
-        <div id="Pred">
-        Here is how we predict
+          <!-- Prediction -->
+          <div id="Pred">
+          Here is how we predict
         
-        </div>
-        
-          <!---- Footer ----------------------->
+          </div>
+      
 
-      <div id="footer">
-            <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+        </div>
+        
+        <!---- Footer ----------------------->
+        <div id="footer">
+          <p>Copyright &#169; Dublin Bikes Web Application 2021</p>
+        </div>
+
       </div>
         
     </body>
