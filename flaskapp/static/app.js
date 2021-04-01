@@ -64,23 +64,24 @@ function redirectStation() {
     y = document.getElementById("station");
     // save the variable in the tab name    
     sessionStorage.setItem("stationName", y.value);
-    if (window.location.href != "analytics/information") {
+    if (location.href != "analytics/information") {
         // open new window at url detail
         location.href ="analytics/information";
+
     } else {
         selectStation();
-    }
-    
+    }    
 }
 
 function selectStation(){
+
     // Retrieve data after new page open
     var StationName = sessionStorage.getItem("stationName");
     console.log(StationName)
     // sets the title of the charts
     dets = document.getElementById("Title");
     dets.innerHTML = StationName;
-
+    
     // fecthing the current data 
     fetch("/details/" + StationName).then(response=> {
         console.log(response);
@@ -156,7 +157,7 @@ function selectStation(){
             ctx.clearRect(0, 0, ctx.width, ctx.height);
             // create line chart
             myChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: time,
                 datasets: [{
@@ -185,7 +186,130 @@ function selectStation(){
         }
     ).catch(err => {
             console.log("ERROR",err)
+            });
+    
+    // fecthing the average data 
+    fetch("/dayavg/" + StationName).then(response=> {
+        console.log(response);
+        return response.json();
+
+    }).then(data => 
+            {
+            console.log("average: ", data);
+
+            // we need to extract the data and put into an array
+            available_bikes = [];
+            available_stands= [];
+            time = [];
+            
+            for (i = 0; i < data.length; i++) {
+                available_bikes[i] = data[i].available_bikes;
+                available_stands[i] = data[i].available_bike_stands;
+                date = new Date(data[i].last_update)
+                time[i] = date.getHours();
+            }
+            // create the chart containing the data 
+            // rempve the current chart to place new one
+            ctx = document.getElementById('hourChart').getContext('2d');
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+            // create line chart
+            myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: time,
+                datasets: [{
+                    label: 'available bikes',
+                    data: available_bikes,
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: 'green',
+                    fill: false,
+                }, {
+                label: "available stands",
+                data: available_stands,
+                borderColor: "red",
+                backgroundColor: "rgba(225,0,0,0.4)",
+                fill: false,
+            }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        }
+    ).catch(err => {
+            console.log("ERROR",err)
+            });
+
+}
+
+function defaultChart() {
+           // fecthing the average data 
+    fetch("/houravg").then(response=> {
+        console.log(response);
+        return response.json();
+
+    }).then(data => 
+            {
+            console.log("average: ", data);
+
+            // we need to extract the data and put into an array
+            available_bikes = [];
+            available_stands= [];
+            time = [];
+            
+            for (i = 0; i < data.length; i++) {
+                available_bikes[i] = data[i].available_bikes;
+                available_stands[i] = data[i].available_bike_stands;
+                date = new Date(data[i].last_update)
+                time[i] = date.getHours();
+            }
+            // create the chart containing the data 
+            // rempve the current chart to place new one
+            ctx = document.getElementById('myChart').getContext('2d');
+            ctx.clearRect(0, 0, ctx.width, ctx.height);
+
+
+            // create line chart
+            myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: time,
+                datasets: [{
+                    label: 'available bikes',
+                    data: available_bikes,
+                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    borderColor: 'green',
+                    fill: false,
+                }, {
+                label: "available stands",
+                data: available_stands,
+                borderColor: "red",
+                backgroundColor: "rgba(225,0,0,0.4)",
+                fill: false,
+            }],
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        }
+    ).catch(err => {
+            console.log("ERROR",err)
             })
+    
+    Drop();
 }
 
 function getLocation() {

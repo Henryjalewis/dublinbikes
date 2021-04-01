@@ -104,6 +104,42 @@ def avgdetails(name):
   res_df["last_update"] = res_df.index
   return res_df.to_json(orient='records')
 
+# get the average for last few hours
+@app.route("/dayavg/<name>")
+def dayavg(name):
+  # use the name in a query
+  print(name)
+
+  query = f"""    
+  select available_bike_stands, available_bikes, last_update from available
+  join stations on available.number = stations.number
+  where stations.name = '{name}'
+  and day(last_update) = Day(curdate())"""
+  print(query)
+  # use the engine connection to query
+  df = pd.read_sql_query(query, engine)
+  # get the mean of the days
+  res_df = df.set_index("last_update").resample("1h").mean()
+  res_df["last_update"] = res_df.index
+  return res_df.to_json(orient='records')
+
+# get the average for for the day for all stations
+@app.route("/houravg")
+def allavg():
+  # use the name in a query
+
+  query = """    
+  select available_bike_stands, available_bikes, last_update from available
+  where Day(last_update) = Day(curdate())
+  """
+  print(query)
+  # use the engine connection to query
+  df = pd.read_sql_query(query, engine)
+  # get the mean of the days
+  res_df = df.set_index("last_update").resample("1h").mean()
+  res_df["last_update"] = res_df.index
+  return res_df.to_json(orient='records')
+
 # get the most recent weather data
 @app.route("/weather")
 def getWeather():
