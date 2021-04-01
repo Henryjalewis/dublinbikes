@@ -37,7 +37,7 @@
             radius: 5000,
             types: ['establishment', 'geocode'],
             componentRestrictions: {'country': ['IE']},
-            fields: ['place_id', 'geometry', 'name']
+            fields: ['place_id', 'geometry', 'name', 'formatted_address']
           });
         autocompleteOrigin.addListener('place_changed', onOriginChanged);
 
@@ -61,7 +61,9 @@
         if (!place.geometry) {
           document.getElementById('origin').placeholder = "Origin";
         } else {
-          start = place;
+          var lat = place.geometry.location.lat()
+          var lng = place.geometry.location.lng()
+          start = { lat: lat, lng: lng }
         }
       }
 
@@ -72,7 +74,9 @@
         if (!place.geometry) {
           document.getElementById('destination').placeholder = "Origin";
         } else {
-          end = place;
+          var lat = place.geometry.location.lat()
+          var lng = place.geometry.location.lng()
+          end = { lat: lat, lng: lng }
         }
       }
 
@@ -96,7 +100,7 @@
             // use google distance matrix API to find distance, then handle response in callback function
             service.getDistanceMatrix(
             {
-              origins: [start.name],
+              origins: [start],
               destinations: [destination],
               travelMode: google.maps.TravelMode.WALKING,
               unitSystem: google.maps.UnitSystem.METRIC
@@ -131,7 +135,7 @@
                       // use google distance matrix API to find distance, then handle response in callback function
                       service.getDistanceMatrix(
                       {
-                        origins: [end.name],
+                        origins: [end],
                         destinations: [destination],
                         travelMode: google.maps.TravelMode.WALKING,
                         unitSystem: google.maps.UnitSystem.METRIC
@@ -166,7 +170,7 @@
                                     location: new google.maps.LatLng(secondStation.pos_lat, secondStation.pos_long),
                                     stopover: true
                                   }],
-                                travelMode: 'BICYCLING'
+                                travelMode: ['BICYCLING']
                               };
                               // call directions API and draw to map
                               directionsService.route(request, function(result, status) {
