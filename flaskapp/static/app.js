@@ -9,10 +9,16 @@ function initMap() {
     map = new google.maps.Map(document.getElementById("map"), {
       center: { lat: 53.346, lng: -6.26986 },
       zoom: 13.9,
+      mapTypeControl:true,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.TOP_CENTER,
+      },
     });
 
     // variable to hold info window
     var infoWindow = new google.maps.InfoWindow();
+    // variables for change of color on markers indicating bike availability
     var redImage = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
     var orangeImage = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
     var greenImage = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
@@ -449,3 +455,4 @@ fetchWeather().then(weatherData => {
 }).catch(err=> {
     console.log("OOPS", err);
 })
+
