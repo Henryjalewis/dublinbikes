@@ -25,7 +25,7 @@ function initMap() {
                const marker = new google.maps.Marker({
                    position: {lat: station.pos_lat, lng: station.pos_long},
                    map: map,
-                   icon: blueImage,
+                   icon: redImage,
                });
                // Adds an info window to an event listener to each station map markers on the bike stations
               marker.addListener('click', function () {
