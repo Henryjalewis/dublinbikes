@@ -104,7 +104,7 @@ option {
 #currentTemp{
     width: 220px;
     height: 200px;
-    background: rgb(41, 41, 41);
+    background: #333;
     position: absolute;
     top: 0;
     left: 0;
@@ -112,7 +112,7 @@ option {
 #currentWeather{
     width: 180px;
     height: 200px;
-    background: rgb(237, 237, 237);
+    background: #f7f3e9;
     margin: 0;
     position: absolute;
     top: 0;
