@@ -11,32 +11,71 @@ function initMap() {
       zoom: 13.9,
     });
 
-    // variable to hold info eindow
+    // variable to hold info window
     var infoWindow = new google.maps.InfoWindow();
+    var redImage = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+    var orangeImage = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
+    var greenImage = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
 
-    // Sets the map markers on the bike stations
-    data.forEach(station => {
-      const marker = new google.maps.Marker({
-        position: { lat: station.pos_lat, lng: station.pos_long },
-        map: map,
-      });
+        // Sets the map markers on the bike stations
+       data.forEach(station => {
+           var availablePercent = (station.available_bikes / station.bike_stands) * 100;
+           console.log(availablePercent);
+           if (availablePercent >= 0 && availablePercent <= 10){
+               const marker = new google.maps.Marker({
+                   position: {lat: station.pos_lat, lng: station.pos_long},
+                   map: map,
+                   icon: blueImage,
+               });
+               // Adds an info window to an event listener to each station map markers on the bike stations
+              marker.addListener('click', function () {
+                  infoWindow.setContent(
+                      "<h4>" + station.name + "</h4>" +
+                      "<hr>" +
+                      "<p>Available Bikes: " + station.available_bikes + "</p>" +
+                      "<p>Empty Stands: " + station.available_bike_stands + "</p>"
+                  );
+                  infoWindow.open(map, marker);
+              });
+           }else if (availablePercent >= 10 && availablePercent <= 40){
+                const marker = new google.maps.Marker({
+                   position: {lat: station.pos_lat, lng: station.pos_long},
+                   map: map,
+                   icon: orangeImage,
+               });
+                // Adds an info window to an event listener to each station map markers on the bike stations
+              marker.addListener('click', function () {
+                  infoWindow.setContent(
+                      "<h4>" + station.name + "</h4>" +
+                      "<hr>" +
+                      "<p>Available Bikes: " + station.available_bikes + "</p>" +
+                      "<p>Empty Stands: " + station.available_bike_stands + "</p>"
+                  );
+                  infoWindow.open(map, marker);
+              });
+           }else if (availablePercent >= 40){
+               const marker = new google.maps.Marker({
+                   position: {lat: station.pos_lat, lng: station.pos_long},
+                   map: map,
+                   icon: greenImage,
+               });
+               // Adds an info window to an event listener to each station map markers on the bike stations
+              marker.addListener('click', function () {
+                  infoWindow.setContent(
+                      "<h4>" + station.name + "</h4>" +
+                      "<hr>" +
+                      "<p>Available Bikes: " + station.available_bikes + "</p>" +
+                      "<p>Empty Stands: " + station.available_bike_stands + "</p>"
+                  );
+                  infoWindow.open(map, marker);
+              });
+           }
 
-      // Adds an info window to an event listener to each station map markers on the bike stations
-      marker.addListener('click', function() {
-        infoWindow.setContent(
-          "<h4>" + station.name + "</h4>" +
-          "<hr>" +
-          "<p>Available Bikes: " + station.available_bikes + "</p>" +
-          "<p>Empty Stands: " + station.available_bike_stands + "</p>"
-        );
-        infoWindow.open(map, marker);
-      });
 
-    });
-
-    map.addListener('click', function() {
-      if (infowindow) infowindow.close();
-    });
+       });
+        map.addListener('click', function () {
+            if (infowindow) infowindow.close();
+        });
 
   }).catch(err => {
     console.log("ERROR",err);
