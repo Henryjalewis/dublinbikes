@@ -134,7 +134,8 @@ def dayavg(name):
   select available_bike_stands, available_bikes, last_update from available
   join stations on available.number = stations.number
   where stations.name = '{name}'
-  and day(last_update) = Day(curdate())"""
+  and day(last_update) = Day(curdate())
+  and month(last_update) = Month(curdate())"""
   print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
@@ -151,14 +152,18 @@ def allavg():
   query = """    
   select available_bike_stands, available_bikes, last_update from available
   where Day(last_update) = Day(curdate())
+  and month(last_update) = Month(subdate(curdate(),1))
   """
   print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
+  print(df.shape)
   # get the mean of the days
   res_df = df.set_index("last_update").resample("1h").mean()
+  print(res_df.shape)
   # query for yesterdays data
   res_df["last_update"] = res_df.index
+  print(res_df.shape)
   return res_df.to_json(orient='records')
 
 # get the average for for the day for all stations
@@ -171,12 +176,15 @@ def yesterdayavg(name):
   join stations on available.number = stations.number
   where stations.name = '{name}'
   and Day(last_update) = Day(subdate(curdate(),1))
+  and month(last_update) = Month(subdate(curdate(),1))
   """
   print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
+  print(df)
   # get the mean of the days
   res_df = df.set_index("last_update").resample("1h").mean()
+  print(res_df)
   # query for yesterdays data
   res_df["last_update"] = res_df.index
   return res_df.to_json(orient='records')

@@ -323,6 +323,8 @@ function selectStation(){
                 date = new Date(data[i].last_update)
                 time[i] = date.toLocaleTimeString('en-US');
             }
+        
+            console.log("Past TIme Points" , time);
             // create the chart containing the data 
             // rempve the current chart to place new one
             ctx = document.getElementById('chart3').getContext('2d');
