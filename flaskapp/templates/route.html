@@ -87,6 +87,25 @@
         fetch("/stations").then(response => {
           return response.json();
         }).then (data => {
+
+          var service = new google.maps.DistanceMatrixService();
+
+          // use google distance matrix API to find distance distance if driven
+          service.getDistanceMatrix(
+          {
+            origins: [start],
+            destinations: [end],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC
+          }, function (response, status) {
+            // check that distance matric returns ok
+            if (status != google.maps.DistanceMatrixStatus.OK) {
+              console.log("ERROR")
+            // then check if there are empty stands available
+            } else {
+              document.getElementById('emissions').innerHTML = "CO2 emissions saved this trip: " + (response.rows[0].elements[0].distance.value/1000)*118 +"g (based on 118g/km driven)"
+            }
+          })
           
           // initialise variables used for checking the first station to route through
           var closestDistance = null;
@@ -249,7 +268,10 @@
       <input id="destination" placeholder="Destination" type="text">
       <button onclick="calcRoute()">Calculate Route</button>
 
-        <div id="map"></div>
+      <h3 id="emissions"></h3>
+
+      <div id="map"></div>
+
 
     </div>
 
