@@ -175,6 +175,9 @@ function selectStation(){
                 }]
             },
             options: {
+                layout: {
+                    padding: 50
+                },
                 scales: {
                     y: {
                         beginAtZero: true
@@ -232,6 +235,9 @@ function selectStation(){
             }]
             },
             options: {
+                layout: {
+                    padding: 50
+                },
                 scales: {
                     y: {
                         beginAtZero: true
@@ -289,6 +295,9 @@ function selectStation(){
             }]
             },
             options: {
+                layout: {
+                    padding : 50
+                },
                 scales: {
                     y: {
                         beginAtZero: true
@@ -349,6 +358,9 @@ function selectStation(){
             }]
             },
             options: {
+                layout: {
+                    padding : 50
+                },
                 scales: {
                     y: {
                         beginAtZero: true

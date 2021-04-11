@@ -213,6 +213,7 @@ option {
 }
 
 .chart1{
+    width: 50%;
     grid-area: box1;
 }
 .chart2{
