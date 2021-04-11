@@ -25,7 +25,7 @@ station_list = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 15, 16,
                 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105,
                 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117]
 for number in station_list:
-    filename = '../station{id}_model.sav'.format(id = number)
+    filename = '../models/station{id}_model.sav'.format(id = number)
     #loading the model
     loaded_model[number] = pickle.load(open(filename, 'rb'))
 
@@ -63,9 +63,7 @@ def about():
 
 @app.route("/contact")
 def contact():
-  #tpl = Template()
-  d = {'name':'Tallguy'}
-  return render_template("contact.html", **d)
+  return render_template("contact.html")
 
 # reads API information for station locations and outputs a dataframe
 @app.route("/stations")
