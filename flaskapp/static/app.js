@@ -223,14 +223,14 @@ function selectStation(){
                 datasets: [{
                     label: 'available bikes',
                     data: available_bikes,
-                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    backgroundColor: '#4b778d',
                     borderColor: 'green',
                     fill: false,
                 }, {
                 label: "available stands",
                 data: available_stands,
                 borderColor: "red",
-                backgroundColor: "rgba(225,0,0,0.4)",
+                backgroundColor: "#9e9d89",
                 fill: false,
             }]
             },
@@ -283,14 +283,14 @@ function selectStation(){
                 datasets: [{
                     label: 'available bikes',
                     data: available_bikes,
-                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    backgroundColor: '#4b778d',
                     borderColor: 'green',
                     fill: false,
                 }, {
                 label: "available stands",
                 data: available_stands,
                 borderColor: "red",
-                backgroundColor: "rgba(225,0,0,0.4)",
+                backgroundColor: "#9e9d89",
                 fill: false,
             }]
             },
@@ -346,14 +346,14 @@ function selectStation(){
                 datasets: [{
                     label: 'available bikes',
                     data: available_bikes,
-                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    backgroundColor: '#4b778d',
                     borderColor: 'green',
                     fill: false,
                 }, {
                 label: "available stands",
                 data: available_stands,
                 borderColor: "red",
-                backgroundColor: "rgba(225,0,0,0.4)",
+                backgroundColor: "#9e9d89",
                 fill: false,
             }]
             },
