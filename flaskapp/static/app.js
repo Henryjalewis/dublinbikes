@@ -85,7 +85,7 @@ function initMap() {
 
           // Add a style-selector control to the map.
           const styleControl = document.getElementById("style-selector-control");
-          map.controls[google.maps.ControlPosition.LEFT_CENTER].push(styleControl);
+          map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(styleControl);
           // Set the map's style to the initial value of the selector.
           const styleSelector = document.getElementById("style-selector");
           map.setOptions({ styles: styles[styleSelector.value] });
