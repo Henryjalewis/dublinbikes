@@ -385,18 +385,21 @@ function dropDay() {
     for (i = 0; i <=5 ; i++) {
         var currentDate = new Date();
         currentDate.setDate(startDate.getDate() + i);
-        options += "<option value='" + currentDate.getDay() + "'>" + currentDate.getDate() + "/" + currentDate.getMonth() + 1 + "</option>"; 
+        options += "<option value='" + currentDate.getDay() + "'>" + currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "</option>"; 
     }
     list.innerHTML += options;
 }
 
 // make the hour drop down
 function dropHour() {
+    minutes = [0,30];
+    
     // make the drop down menu to contain the hours of days
     list = document.getElementById("hour");
     string = "";
     for (i = 0; i < 24; i++) {
-        string += "<option value='" + i + "'>" + i + "</option>"; 
+        for (j = 0; j < 2; j++)
+        string += "<option value='" + i +", "+ minutes[j]+"]}" + "'>" + i +":" + minutes[j] + "</option>"; 
     }
     list.innerHTML += string;
 }
@@ -471,16 +474,19 @@ function defaultChart() {
 // get the data from prediction
 function predict() {
     dayofWeek = document.getElementById("dayDrop").value;
-    hour = document.getElementById("hour").value;
-    minute = document.getElementById("minute").value;
+    list = document.getElementById("hour").value;
     
+    console.log(list);
+    arr = list.split(",");
+    hour = parseInt(arr[0]);
+    minutes = parseInt(arr[1]);
     console.log("day = ", dayofWeek);
     console.log("hour", hour);
-    console.log("minut", minute);
+    console.log("minute", minutes);
     
 
     
-    fetch("/predict/" + dayofWeek + "/" + hour + "/" + minute).then(response=> {
+    fetch("/predict/" + dayofWeek + "/" + hour + "/" + minutes).then(response=> {
         console.log(response);
         return response.json();
 
