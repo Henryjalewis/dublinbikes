@@ -195,11 +195,20 @@ def getWeather():
   return df.to_json(orient='records')
 
 # predict
-@app.route("/predict/<day>/<hour>/<minute>")
-def predict(day, hour,minute):
+@app.route("/predict/<day>/<hour>/<minute>/<name>")
+def predict(day, hour,minute, name):
     print(day)
     print(hour)
     print(minute)
+    print(name)
+    # need to get the number of station
+    query = '''
+    SELECT number from stations
+    where name = "Blessington Street";
+    '''
+    df = pd.read_sql(query, engine)
+    number = df.values[0][0]
+    print(number)
     # here is where we add the prediction code, so we get the data from the dataframe and get the right format.
     # insert into the model and return the value.
 

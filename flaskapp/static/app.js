@@ -483,10 +483,11 @@ function predict() {
     console.log("day = ", dayofWeek);
     console.log("hour", hour);
     console.log("minute", minutes);
+    var StationName = sessionStorage.getItem("stationName");
     
-
+    console.log(StationName);
     
-    fetch("/predict/" + dayofWeek + "/" + hour + "/" + minutes).then(response=> {
+    fetch("/predict/" + dayofWeek + "/" + hour + "/" + minutes + "/" + StationName).then(response=> {
         console.log(response);
         return response.json();
 
