@@ -27,7 +27,7 @@ function initMap() {
        data.forEach(station => {
            var availablePercent = (station.available_bikes / station.bike_stands) * 100;
            console.log(availablePercent);
-           if (availablePercent >= 0 && availablePercent <= 10){
+           if (availablePercent >= 0 && availablePercent < 10){
                const marker = new google.maps.Marker({
                    position: {lat: station.pos_lat, lng: station.pos_long},
                    map: map,
@@ -43,7 +43,7 @@ function initMap() {
                   );
                   infoWindow.open(map, marker);
               });
-           }else if (availablePercent >= 10 && availablePercent <= 40){
+           }else if (availablePercent >= 10 && availablePercent < 40){
                 const marker = new google.maps.Marker({
                    position: {lat: station.pos_lat, lng: station.pos_long},
                    map: map,
