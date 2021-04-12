@@ -270,3 +270,29 @@ input[type=submit]:hover {
   padding: 20px;
 }
 
+.map-control {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  font-family: "Roboto", "sans-serif";
+  margin: 10px;
+  /* Hide the control initially, to prevent it from appearing
+           before the map loads. */
+  display: none;
+}
+
+/* Display the control once it is inside the map. */
+#map .map-control {
+  display: block;
+}
+
+.selector-control {
+  color: #fff;
+  text-transform: uppercase;
+  background-color: #333;
+  font-size: 12px;
+  line-height: 30px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
