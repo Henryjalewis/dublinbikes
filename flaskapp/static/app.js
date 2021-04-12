@@ -107,7 +107,7 @@ function Drop() {
 return response.json();
 }).then (data => {
 // create drop down station names
-  options = "<option value=0> </option>";
+  options = "";
   for (i = 0; i < data.length; i++) {
       options += "<option value='" + data[i].name + "'>" + data[i].name + "</option>"; 
   }
@@ -376,6 +376,33 @@ function selectStation(){
 
 }
 
+// make the time drop down menus
+// the date drop down
+function dropDay() {
+    list = document.getElementById("dayDrop");
+    startDate = new Date();
+    options = "";  
+    for (i = 0; i <=5 ; i++) {
+        var currentDate = new Date();
+        currentDate.setDate(startDate.getDate() + i);
+        options += "<option value='" + currentDate.getDay() + "'>" + currentDate.getDate() + "/" + currentDate.getMonth() + 1 + "</option>"; 
+    }
+    list.innerHTML += options;
+}
+
+// make the hour drop down
+function dropHour() {
+    // make the drop down menu to contain the hours of days
+    list = document.getElementById("hour");
+    string = "";
+    for (i = 0; i < 24; i++) {
+        string += "<option value='" + i + "'>" + i + "</option>"; 
+    }
+    list.innerHTML += string;
+}
+
+
+// analytics page chart, overview chart
 function defaultChart() {
     // fecthing the average data 
     fetch("/houravg").then(response=> {
@@ -384,7 +411,7 @@ function defaultChart() {
 
     }).then(data => 
             {
-            console.log("average: ", data);
+            console.log("average: " , data);
 
             // we need to extract the data and put into an array
             available_bikes = [];
@@ -441,8 +468,23 @@ function defaultChart() {
     Drop();
 }
 
-function getLocation() {
+// get the data from prediction
+function predict() {
+    dayofWeek = document.getElementById("dayDrop").value;
+    hour = document.getElementById("hour").value;
+    minute = document.getElementById("minute").value;
     
+    console.log("day = ", dayofWeek);
+    console.log("hour", hour);
+    console.log("minut", minute);
+    
+
+    
+    fetch("/predict/" + dayofWeek + "/" + hour + "/" + minute).then(response=> {
+        console.log(response);
+        return response.json();
+
+    })
 }
 
 async function fetchWeather(){

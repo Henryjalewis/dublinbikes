@@ -21,7 +21,7 @@
       </style>
   </head>
     
-    <body onload="selectStation()">
+    <body onload="selectStation(); dropDay(); dropHour()">
         
         <!---- Navigation Bar ----------------------->
         <nav class="navbar">
@@ -97,12 +97,21 @@
               <!-- Prediction -->
             <div id="Pred" >
                 <!-- create a drop down menu of the times that we can predict for -->
-                
-                <select id="time_drop">
-                    
-                    
-                </select>
-                
+                <form action="">
+                    <select id="dayDrop">
+                    </select>
+
+                    <select id="hour">
+
+                    </select>
+
+                    <select id="minute">
+                        <option value="0"> 0</option>
+                        <option value="30"> 30</option>
+                    </select>
+
+                    <input type="button" onclick="predict()" value="Predict">
+                </form>
             </div>
             
           </div>

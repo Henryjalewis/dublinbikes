@@ -155,13 +155,10 @@ def allavg():
   print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
-  print(df.shape)
   # get the mean of the days
   res_df = df.set_index("last_update").resample("1h").mean()
-  print(res_df.shape)
   # query for yesterdays data
   res_df["last_update"] = res_df.index
-  print(res_df.shape)
   return res_df.to_json(orient='records')
 
 # get the average for for the day for all stations
@@ -179,10 +176,8 @@ def yesterdayavg(name):
   print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
-  print(df)
   # get the mean of the days
   res_df = df.set_index("last_update").resample("1h").mean()
-  print(res_df)
   # query for yesterdays data
   res_df["last_update"] = res_df.index
   return res_df.to_json(orient='records')
@@ -198,6 +193,17 @@ def getWeather():
       `jcdecaux-bikes`.weather)"""
   df = pd.read_sql(sql, engine)
   return df.to_json(orient='records')
+
+# predict
+@app.route("/predict/<day>/<hour>/<minute>")
+def predict(day, hour,minute):
+    print(day)
+    print(hour)
+    print(minute)
+    # here is where we add the prediction code, so we get the data from the dataframe and get the right format.
+    # insert into the model and return the value.
+
+    return None
 
 
 if __name__ == "__main__":
