@@ -297,8 +297,9 @@ input[type=submit]:hover {
 
 /*Legend Styling */
 .my-legend{
+    position: relative;
     margin-left: 45px;
-    margin-bottom: 80px;
+    bottom: 80px;
 }
 .my-legend .legend-title {
     text-align: left;
@@ -307,7 +308,6 @@ input[type=submit]:hover {
     font-size: 90%;
 }
 .my-legend .legend-scale ul {
-    margin: 0;
     padding: 0;
     float: left;
     list-style: none;
@@ -316,7 +316,6 @@ input[type=submit]:hover {
     display: block;
     float: left;
     width: 55px;
-    margin-bottom: -4px;
     text-align: center;
     font-size: 80%;
     list-style: none;
@@ -324,7 +323,7 @@ input[type=submit]:hover {
 .my-legend ul.legend-labels li span {
     display: block;
     float: left;
-    height: 15px;
+    height: 35px;
     width: 50px;
 }
 .my-legend .legend-source {
