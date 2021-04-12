@@ -164,8 +164,8 @@ function selectStation(){
                     label: 'Station Counts',
                     data: [vals[0].available_bikes, vals[0].available_bike_stands],
                     backgroundColor: [
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        '#4b778d',
+                        '#9e9d89'
                     ],
                     borderColor: [
                         'rgba(153, 102, 255, 1)',
@@ -441,14 +441,14 @@ function defaultChart() {
                 datasets: [{
                     label: 'available bikes',
                     data: available_bikes,
-                    backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                    backgroundColor: '#4b778d',
                     borderColor: 'green',
                     fill: false,
                 }, {
                 label: "available stands",
                 data: available_stands,
                 borderColor: "red",
-                backgroundColor: "rgba(225,0,0,0.4)",
+                backgroundColor: "#9e9d89",
                 fill: false,
             }],
             },
