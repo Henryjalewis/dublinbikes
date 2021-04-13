@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 import pandas as pd
 import json
 import pickle
+import numpy as np
 
 # Get keys from JSON file
 with open('../keys.json') as f:
@@ -215,7 +216,6 @@ def predict(day, hour,minute, name):
 
     # load the data
     df = pd.read_csv("..\Forecast.csv", index_col=0)
-    print(df["minute"].head())
     data = df[(df["dayOfWeek"] == day) & (df["hour"] == hour) & (df["minute"] == minute)]
 
 
@@ -225,9 +225,44 @@ def predict(day, hour,minute, name):
     available_stands = bike_stands - available_bikes
     # convert to dataframe
     df = pd.DataFrame([[available_bikes, available_stands]], columns = ["bikes", "stands"])
+
+    # pass on as json
+    return df.to_json(orient='records')
+
+# get the rest of day prediction
+@app.route("/daypredict/<day>/<hour>/<minute>/<name>")
+def daypredict(day, hour,minute, name):
+    day = int(day)
+    hour = int(hour)
+    # need to get the number of station
+    query = f'''
+    SELECT number, bike_stands from stations
+    where name = '{name}'
+    '''
+    df = pd.read_sql(query, engine)
+    number = df.values[0][0]
+    bike_stands = df.values[0][1]
+    
+    # here is where we add the prediction code, so we get the data from the dataframe and get the right format.
+    # insert into the model and return the value.
+    model_to_use = loaded_model[number]
+
+    # load the data
+    df = pd.read_csv("..\Forecast.csv", index_col=0)
+    data = df[(df["dayOfWeek"] == day) & (df["hour"] > hour)]
+
+    # model predicts available bikes
+    predicted_values = model_to_use.predict(data.values)
+
+    available_bikes = np.around(predicted_values)
+    available_stands = bike_stands - available_bikes
+    # convert to dataframe
+    df = pd.DataFrame(zip(available_bikes, available_stands), columns=["bikes", "stands"])
     print(df)
     # pass on as json
     return df.to_json(orient='records')
+
+
 
 
 if __name__ == "__main__":

@@ -26,7 +26,7 @@ function initMap() {
         // Sets the map markers on the bike stations
        data.forEach(station => {
            var availablePercent = (station.available_bikes / station.bike_stands) * 100;
-           console.log(availablePercent);
+           //console.log(availablePercent);
            if (availablePercent >= 0 && availablePercent < 10){
                const marker = new google.maps.Marker({
                    position: {lat: station.pos_lat, lng: station.pos_long},
@@ -496,7 +496,7 @@ function predict() {
              
             // create the chart containing the data 
             // remove the current chart to place new one
-            canvas = document.getElementById('predChart');
+            canvas = document.getElementById('chart5');
             context = canvas.getContext('2d');
             context.clearRect(0, 0, canvas.width, canvas.height);
             
@@ -523,6 +523,90 @@ function predict() {
             options: {
                 layout: {
                     padding: 50
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        }
+    ).catch(err => {
+            console.log("ERROR",err)
+            })
+    
+    // fetch the rest of the days data
+    fetch("/daypredict/" + dayofWeek + "/" + hour + "/" + minutes + "/" + StationName).then(response=> {
+        console.log(response);
+        return response.json();
+    }).then(data=>
+            {console.log("daypredicted", data);
+            
+            // remove the previous chart
+             if(window.daychart != null){
+                 window.daychart.destroy();
+             }
+             
+             // retrieve data from json
+             available_bikes = [];
+             available_stands = [];
+             time = [];
+             for (i = 0; i < data.length ; i++) {
+                 available_bikes[i] = data[i].bikes;
+                 available_stands[i] = data[i].stands;
+                 
+             }
+             
+             console.log("bikes:", available_bikes);
+             console.log("stands", available_stands);
+             
+             // get the list of times
+             // last time of the day is 23:30
+             time[0] = hour + ":" + minutes;
+             timeleft = (23 - hour) * 2 ;
+             if (minutes == 0) {
+                 timeleft = timeleft + 1;
+             }
+             for (j = 1; j < data.length; j++) {
+                 minutes = (minutes + 30) % 60;
+                 if (minutes == 0) {
+                     hour = hour + 1
+                 }
+                 time[j] = hour + ":" + minutes;
+                 
+             }
+             console.log(time);
+             
+            // create the chart containing the data 
+            // remove the current chart to place new one
+            canvas = document.getElementById('chart6');
+            context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            
+    // create new chart
+            window.daychart = new Chart(context, {
+            type: 'bar',
+            data: {
+                labels: time,
+                datasets: [{
+                    label: 'available bikes',
+                    data: available_bikes,
+                    backgroundColor: '#4b778d',
+                    borderColor: 'green',
+                    fill: false,
+                }, {
+                label: "available stands",
+                data: available_stands,
+                borderColor: "red",
+                backgroundColor: "#9e9d89",
+                fill: false,
+            }]
+            },
+            options: {
+                layout: {
+                    padding : 50
                 },
                 scales: {
                     y: {
