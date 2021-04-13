@@ -43,11 +43,6 @@ def home():
 def analytics():
   return render_template("analytics.html")
 
-# This function sets up the template for the analytics station details page
-@app.route("/analytics/information")
-def information():
-  return render_template("details.html")
-
 # This function sets up the template for the route planning page
 @app.route("/route")
 def route():
