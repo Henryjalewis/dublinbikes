@@ -585,6 +585,9 @@ function fetchWeather(){
     // get year and time
     var timestamp = weatherData[0].time;
     var date = new Date(timestamp);
+    // Weather Description
+    var description = weatherData[0].description;
+
     // days of the week
 
     var days = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
@@ -597,7 +600,7 @@ function fetchWeather(){
     var iconCode = weatherData[0].icon;
     var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
 
-
+    document.getElementById("description").innerHTML = description;
     document.getElementById("dateTime").innerHTML = dateMonth;
     document.getElementById("temp").innerHTML = tempCelcius + "&deg";
     document.getElementById("wind").innerHTML = windSpeed + " MPH";
