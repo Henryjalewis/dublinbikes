@@ -26,7 +26,6 @@ function initMap() {
         // Sets the map markers on the bike stations
        data.forEach(station => {
            var availablePercent = (station.available_bikes / station.bike_stands) * 100;
-           console.log(availablePercent);
            if (availablePercent >= 0 && availablePercent < 10){
                const marker = new google.maps.Marker({
                    position: {lat: station.pos_lat, lng: station.pos_long},
@@ -563,7 +562,6 @@ fetchWeather().then(weatherData => {
     var dayName = days[date.getDay()];
     var month = months[date.getMonth()]
     var dateMonth = dayName + " - " + month + " - " + date.getDate();
-    console.log(dateMonth)
     // Humidity
     var humidity = weatherData[0].humidity;
     var iconCode = weatherData[0].icon;
