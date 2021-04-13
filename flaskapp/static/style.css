@@ -167,12 +167,23 @@ option {
     color: rgb(255, 255, 255);
     text-align: center;
 }
+
+#description{
+    color: #333;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    position: absolute;
+    top: -22px;
+    left:2px;
+    width:100%;
+}
+
 #humidity {
     width: 50%;
     position: absolute;
     left: 10px;
     word-spacing: 60px;
-    top: 3px;
 }
 #humidity::before{
     display: block;
@@ -180,7 +191,7 @@ option {
     font-family: weathericons;
     font-size: 40px;
     left: 2px;
-    top: -2px;
+    top: -7px;
     position: absolute;
 }
 #wind {
@@ -188,7 +199,7 @@ option {
     right: -10px;
     position: absolute;
     word-spacing: 60px;
-    top: 3px;
+    top: 2px;
 }
 #wind::before{
     display: block;
