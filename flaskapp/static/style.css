@@ -29,6 +29,10 @@ body {
 }
 
 /* Styling for the navigation bar Links. */
+.navlinks .active-link {
+  text-decoration: underline;
+}
+
 .navlinks ul {
   margin: 0;
   padding: 0;
