@@ -95,7 +95,7 @@
             </div>
             
               <!-- Prediction -->
-            <div id="Pred" >
+            <div id="Pred" style="margin: auto">
                 <!-- create a drop down menu of the times that we can predict for -->
                 <form action="">
                     <select id="dayDrop">
@@ -103,10 +103,16 @@
 
                     <select id="hour">
                     </select>
-
-
                     <input type="button" onclick="predict()" value="Predict">
                 </form>
+                <div class="chartdivs">
+                    <div class="predChart">
+                        <h2>Predicted Results</h2>
+                        <canvas id="predChart" style="float:left; width:50%">
+
+                        </canvas>
+                    </div>
+                </div>
             </div>
             
           </div>

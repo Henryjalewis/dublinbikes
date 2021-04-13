@@ -197,22 +197,37 @@ def getWeather():
 # predict
 @app.route("/predict/<day>/<hour>/<minute>/<name>")
 def predict(day, hour,minute, name):
-    print(day)
-    print(hour)
-    print(minute)
-    print(name)
+    day = int(day)
+    hour = int(hour)
+    minute = int(minute)
     # need to get the number of station
-    query = '''
-    SELECT number from stations
-    where name = "Blessington Street";
+    query = f'''
+    SELECT number, bike_stands from stations
+    where name = '{name}'
     '''
     df = pd.read_sql(query, engine)
     number = df.values[0][0]
-    print(number)
+    bike_stands = df.values[0][1]
+
     # here is where we add the prediction code, so we get the data from the dataframe and get the right format.
     # insert into the model and return the value.
+    model_to_use = loaded_model[number]
 
-    return None
+    # load the data
+    df = pd.read_csv("..\Forecast.csv", index_col=0)
+    print(df["minute"].head())
+    data = df[(df["dayOfWeek"] == day) & (df["hour"] == hour) & (df["minute"] == minute)]
+
+
+    # model predicts available bikes
+    predicted_value = model_to_use.predict(data.values)
+    available_bikes = round(predicted_value[0])
+    available_stands = bike_stands - available_bikes
+    # convert to dataframe
+    df = pd.DataFrame([[available_bikes, available_stands]], columns = ["bikes", "stands"])
+    print(df)
+    # pass on as json
+    return df.to_json(orient='records')
 
 
 if __name__ == "__main__":

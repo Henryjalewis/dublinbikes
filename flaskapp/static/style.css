@@ -226,6 +226,11 @@ option {
     grid-area: box4;
 }
 
+.predChart{
+    width: 50%;
+    grid-area: box1;
+}
+
 /* page footer styling */
 #footer {
   position: absolute;

@@ -480,18 +480,63 @@ function predict() {
     arr = list.split(",");
     hour = parseInt(arr[0]);
     minutes = parseInt(arr[1]);
-    console.log("day = ", dayofWeek);
-    console.log("hour", hour);
-    console.log("minute", minutes);
     var StationName = sessionStorage.getItem("stationName");
-    
-    console.log(StationName);
+
     
     fetch("/predict/" + dayofWeek + "/" + hour + "/" + minutes + "/" + StationName).then(response=> {
         console.log(response);
         return response.json();
+    }).then(data=>
+            {console.log("predicted", data);
+            
+            
+             if(window.mypredChart != null){
+                 window.mypredChart.destroy();
+             }
+             
+            // create the chart containing the data 
+            // remove the current chart to place new one
+            canvas = document.getElementById('predChart');
+            context = canvas.getContext('2d');
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            
+            vals = data;
+    // create new chart
+            window.mypredChart = new Chart(context, {
+            type: 'pie',
+            data: {
+                labels: ['available bikes', 'avaliable stands'],
+                datasets: [{
+                    label: 'Station Counts',
+                    data: [vals[0].bikes, vals[0].stands],
+                    backgroundColor: [
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                layout: {
+                    padding: 50
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
-    })
+        }
+    ).catch(err => {
+            console.log("ERROR",err)
+            })
+    
 }
 
 async function fetchWeather(){
