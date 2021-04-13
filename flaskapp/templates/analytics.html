@@ -14,7 +14,7 @@
 
   </head>
 
-  <body onload="defaultChart()">
+  <body onload="Drop(); selectStation(); dropDay(); dropHour()">
 
   <!---- Navigation Bar ----------------------->
   <nav class="navbar">
@@ -55,29 +55,75 @@
     <!---- Content ----------------------->
     <div class="content">
 
-    <h1>Analytical data on dublin bikes network</h1>
-    <p>Choose a station below to receive detailed analytics</p>
-    <br>
+      <h1>Analytical data on dublin bikes network</h1>
+      <p>Choose a station below to receive detailed analytics</p>
+      <br>
 
-    <div id="Drop">
-      <!-- Create a form that is the drop down list of stations.
-      Will use the submission to query for the details of the station-->
-      <form action="">
-        <label for="station">Choose a Station: </label>
-        <select id="station" name="station">
-        </select>
-        <input type="button" onclick="redirectStation()" value="Get Analytics">
-      </form>
-    </div>   
+      <div id="Drop">
+        <!-- Create a form that is the drop down list of stations.
+        Will use the submission to query for the details of the station-->
+        <form action="">
+          <label for="station">Choose a Station: </label>
+          <select id="station" name="station">
+          </select>
+          <input type="button" onclick="redirectStation()" value="Get Analytics">
+        </form>
+      </div>   
 
 
-    <div >
-      <h1 id="Chart">
-      </h1>
+      <!-- Station name of selected station -->
+      <div >
+        <h1 id="Title"></h1>
+      </div>
 
-      <canvas id="myChart">
+      <!-- Charts displayed -->
+      <div id="realTime">
+        <div class="chartdivs">
+          <div class="chart2">
+            <h2 class="chartTitle"> Daily Averages</h2>
+            <canvas id="chart2" style="float:right; ">
+            </canvas>
+          </div>
 
-      </canvas>
+          <div class="chart1">
+            <h2 class="chartTitle"> Current available data</h2>
+            <canvas id="chart1" style="float:left; width: 50%;">
+            </canvas>
+          </div>
+
+          <div class="chart3">
+            <h2 class="chartTitle"> Hourly Average of Previous day</h2>
+            <canvas id="chart3" style="float:right;">
+            </canvas>
+          </div>
+
+          <div class="chart4">
+            <h2 class="chartTitle"> Today's Hourly Average so Far</h2>
+            <canvas id="chart4" style="float:left;">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Prediction -->
+      <div id="Pred" style="margin: auto">
+        <!-- create a drop down menu of the times that we can predict for -->
+        <form action="">
+          <select id="dayDrop">
+          </select>
+
+          <select id="hour">
+          </select>
+          <input type="button" onclick="predict()" value="Predict">
+        </form>
+        <div class="chartdivs">
+          <div class="predChart">
+            <h2>Predicted Results</h2>
+            <canvas id="predChart" style="float:left; width:50%">
+
+            </canvas>
+          </div>
+        </div>
       </div>
 
     </div>

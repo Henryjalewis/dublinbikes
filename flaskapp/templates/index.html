@@ -12,7 +12,7 @@
     <script type="text/javascript" src="{{ url_for('static', filename='app.js') }}"></script>
   </head>
 
-  <body>
+  <body onload="fetchWeather()">
 
   <!---- Navigation Bar ----------------------->
   <nav class="navbar">
@@ -82,17 +82,18 @@
           </div>
           <div id="map"></div>
 
-      </div>
-      <!---- Legend Content ----------------------->
-      <div class='my-legend'>
-          <div class='legend-title'>Bike Station Availability</div>
-          <div class='legend-scale'>
-              <ul class='legend-labels'>
-                  <li><span><img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png"></span> 0 - 10%</li>
-                  <li><span><img src="http://maps.google.com/mapfiles/ms/icons/orange-dot.png"></span>10% - 40%</li>
-                  <li><span><img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png"></span>40%+</li>
-              </ul>
-          </div>
+        <!---- Legend Content ----------------------->
+        <div class='my-legend'>
+            <div class='legend-title'>Bike Station Availability Legend</div>
+            <div class='legend-scale'>
+                <ul class='legend-labels'>
+                    <li><span><img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png"></span> 0 - 10%</li>
+                    <li><span><img src="http://maps.google.com/mapfiles/ms/icons/orange-dot.png"></span>10% - 40%</li>
+                    <li><span><img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png"></span>40%+</li>
+                </ul>
+            </div>
+        </div>
+
       </div>
 
     <!---- Footer ----------------------->

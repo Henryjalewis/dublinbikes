@@ -35,6 +35,7 @@ function initMap() {
                });
                // Adds an info window to an event listener to each station map markers on the bike stations
               marker.addListener('click', function () {
+                  stationName = encodeURIComponent(station.name.trim())
                   infoWindow.setContent(
                       "<h4>" + station.name + "</h4>" +
                       "<hr>" +
@@ -121,24 +122,41 @@ function redirectStation() {
     y = document.getElementById("station");
     // save the variable in the tab name    
     sessionStorage.setItem("stationName", y.value);
-    if (location.href != "analytics/information") {
-        // open new window at url detail
-        location.href ="analytics/information";
-
-    } else {
-        selectStation();
-    }    
+    selectStation();
 }
 
 function selectStation(){
 
     // Retrieve data after new page open
     var StationName = sessionStorage.getItem("stationName");
-    console.log(StationName)
+
     // sets the title of the charts
     dets = document.getElementById("Title");
     dets.innerHTML = StationName;
-    
+
+    document.getElementById("realTime").innerHTML = "<div class=\"chartdivs\">\
+                                                      <div class=\"chart2\">\
+                                                        <h2 class=\"chartTitle\"> Daily Averages</h2>\
+                                                        <canvas id=\"chart2\" style=\"float:right; \">\
+                                                        </canvas>\
+                                                      </div>\
+                                                      <div class=\"chart1\">\
+                                                        <h2 class=\"chartTitle\"> Current available data</h2>\
+                                                        <canvas id=\"chart1\" style=\"float:left; width: 50%;\">\
+                                                        </canvas>\
+                                                      </div>\
+                                                      <div class=\"chart3\">\
+                                                        <h2 class=\"chartTitle\"> Hourly Average of Previous day</h2>\
+                                                        <canvas id=\"chart3\" style=\"float:right;\">\
+                                                        </canvas>\
+                                                      </div>\
+                                                      <div class=\"chart4\">\
+                                                        <h2 class=\"chartTitle\"> Today's Hourly Average so Far</h2>\
+                                                        <canvas id=\"chart4\" style=\"float:left;\">\
+                                                        </canvas>\
+                                                      </div>\
+                                                    </div>"
+
     // fecthing the current data 
     fetch("/details/" + StationName).then(response=> {
         console.log(response);
@@ -404,73 +422,6 @@ function dropHour() {
     list.innerHTML += string;
 }
 
-
-// analytics page chart, overview chart
-function defaultChart() {
-    // fecthing the average data 
-    fetch("/houravg").then(response=> {
-        console.log(response);
-        return response.json();
-
-    }).then(data => 
-            {
-            console.log("average: " , data);
-
-            // we need to extract the data and put into an array
-            available_bikes = [];
-            available_stands= [];
-            time = [];
-            
-            for (i = 0; i < data.length; i++) {
-                available_bikes[i] = data[i].available_bikes;
-                available_stands[i] = data[i].available_bike_stands;
-                date = new Date(data[i].last_update)
-                time[i] = date.toLocaleTimeString('en-US');
-            }
-            // create the chart containing the data 
-            // rempve the current chart to place new one
-            ctx = document.getElementById('myChart').getContext('2d');
-            ctx.clearRect(0, 0, ctx.width, ctx.height);
-
-
-            // create line chart
-            myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: time,
-                datasets: [{
-                    label: 'available bikes',
-                    data: available_bikes,
-                    backgroundColor: '#4b778d',
-                    borderColor: 'green',
-                    fill: false,
-                }, {
-                label: "available stands",
-                data: available_stands,
-                borderColor: "red",
-                backgroundColor: "#9e9d89",
-                fill: false,
-            }],
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        }
-    ).catch(err => {
-            console.log("ERROR",err)
-            })
-    
-    Drop();
-}
-
 // get the data from prediction
 function predict() {
     dayofWeek = document.getElementById("dayDrop").value;
@@ -536,19 +487,19 @@ function predict() {
     ).catch(err => {
             console.log("ERROR",err)
             })
-    
+
     // fetch the rest of the days data
     fetch("/daypredict/" + dayofWeek + "/" + hour + "/" + minutes + "/" + StationName).then(response=> {
         console.log(response);
         return response.json();
     }).then(data=>
             {console.log("daypredicted", data);
-            
+
             // remove the previous chart
              if(window.daychart != null){
                  window.daychart.destroy();
              }
-             
+
              // retrieve data from json
              available_bikes = [];
              available_stands = [];
@@ -556,12 +507,12 @@ function predict() {
              for (i = 0; i < data.length ; i++) {
                  available_bikes[i] = data[i].bikes;
                  available_stands[i] = data[i].stands;
-                 
+
              }
-             
+
              console.log("bikes:", available_bikes);
              console.log("stands", available_stands);
-             
+
              // get the list of times
              // last time of the day is 23:30
              time[0] = hour + ":" + minutes;
@@ -575,16 +526,16 @@ function predict() {
                      hour = hour + 1
                  }
                  time[j] = hour + ":" + minutes;
-                 
+
              }
              console.log(time);
-             
-            // create the chart containing the data 
+
+            // create the chart containing the data
             // remove the current chart to place new one
             canvas = document.getElementById('chart6');
             context = canvas.getContext('2d');
             context.clearRect(0, 0, canvas.width, canvas.height);
-            
+
     // create new chart
             window.daychart = new Chart(context, {
             type: 'bar',
@@ -623,15 +574,12 @@ function predict() {
     
 }
 
-async function fetchWeather(){
-    const response = await fetch("/weather");
-    const weatherData = await response.json();
-    return weatherData;
-}
-
-fetchWeather().then(weatherData => {
+function fetchWeather(){
+  fetch("/weather").then(response => {
+    return response.json();
+  }).then(weatherData => {
     // Temperature from Kelvin to Celcius
-    var tempCelcius = Math.floor(weatherData[0].feels_like-273.16);
+    var tempCelcius = Math.floor(weatherData[0].temp-273.16);
     // Windspeed in MPH
     var windSpeed = Math.floor((weatherData[0].wind_speed) * 2.23694);
     // get year and time
@@ -644,11 +592,11 @@ fetchWeather().then(weatherData => {
     var dayName = days[date.getDay()];
     var month = months[date.getMonth()]
     var dateMonth = dayName + " - " + month + " - " + date.getDate();
-    console.log(dateMonth)
     // Humidity
     var humidity = weatherData[0].humidity;
     var iconCode = weatherData[0].icon;
     var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+
 
     document.getElementById("dateTime").innerHTML = dateMonth;
     document.getElementById("temp").innerHTML = tempCelcius + "&deg";
@@ -656,9 +604,10 @@ fetchWeather().then(weatherData => {
     document.getElementById("humidity").innerHTML = humidity + " %";
     document.getElementById("imageBox").src = iconUrl;
 
-}).catch(err=> {
-    console.log("OOPS", err);
-})
+  }).catch(err=> {
+      console.log("OOPS", err);
+  })
+}
 
 const styles = {
   default: [],
