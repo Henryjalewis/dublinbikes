@@ -196,6 +196,7 @@ def predict(day, hour,minute, name):
     day = int(day)
     hour = int(hour)
     minute = int(minute)
+
     # need to get the number of station
     query = f'''
     SELECT number, bike_stands from stations
@@ -212,7 +213,7 @@ def predict(day, hour,minute, name):
     # load the data
     df = pd.read_csv("..\Forecast.csv", index_col=0)
     data = df[(df["dayOfWeek"] == day) & (df["hour"] == hour) & (df["minute"] == minute)]
-
+    print(data)
 
     # model predicts available bikes
     predicted_value = model_to_use.predict(data.values)
@@ -244,6 +245,7 @@ def daypredict(day, hour,minute, name):
 
     # load the data
     df = pd.read_csv("..\Forecast.csv", index_col=0)
+    print(df["dayOfWeek"])
     data = df[(df["dayOfWeek"] == day) & (df["hour"] > hour)]
 
     # model predicts available bikes

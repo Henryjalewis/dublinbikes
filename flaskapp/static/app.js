@@ -461,8 +461,8 @@ function predict() {
                     label: 'Station Counts',
                     data: [vals[0].bikes, vals[0].stands],
                     backgroundColor: [
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
+                        '#4b778d',
+                        '#9e9d89'
                     ],
                     borderColor: [
                         'rgba(153, 102, 255, 1)',
