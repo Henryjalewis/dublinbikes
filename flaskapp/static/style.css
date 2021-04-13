@@ -300,11 +300,10 @@ input[type=submit]:hover {
   padding-right: 5px;
 }
 
-/*Legend Styling */
+/* Legend Styling */
 .my-legend{
     position: relative;
     margin-left: 45px;
-    bottom: 80px;
 }
 .my-legend .legend-title {
     text-align: left;
@@ -314,8 +313,8 @@ input[type=submit]:hover {
 }
 .my-legend .legend-scale ul {
     padding: 0;
-    float: left;
     list-style: none;
+    height: 50px;
 }
 .my-legend .legend-scale ul li {
     display: block;
@@ -324,6 +323,7 @@ input[type=submit]:hover {
     text-align: center;
     font-size: 80%;
     list-style: none;
+    padding: 0 10px;
 }
 .my-legend ul.legend-labels li span {
     display: block;
