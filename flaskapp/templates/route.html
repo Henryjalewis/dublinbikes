@@ -103,7 +103,7 @@
               console.log("ERROR")
             // then check if there are empty stands available
             } else {
-              document.getElementById('emissions').innerHTML = "CO2 emissions saved this trip: " + (response.rows[0].elements[0].distance.value/1000)*118 +"g (based on 118g/km driven)"
+              document.getElementById('emissions').innerHTML = "CO2 emissions saved this trip: " + Math.floor((response.rows[0].elements[0].distance.value/1000)*118) +"g (based on 118g/km driven)"
             }
           })
           
