@@ -22,7 +22,7 @@ function initMap() {
         var redImage = "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
         var orangeImage = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
         var greenImage = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
-
+        
         // Sets the map markers on the bike stations
        data.forEach(station => {
            var availablePercent = (station.available_bikes / station.bike_stands) * 100;
@@ -34,6 +34,7 @@ function initMap() {
                });
                // Adds an info window to an event listener to each station map markers on the bike stations
               marker.addListener('click', function () {
+                  stationName = encodeURIComponent(station.name.trim())
                   infoWindow.setContent(
                       "<h4>" + station.name + "</h4>" +
                       "<hr>" +
@@ -541,15 +542,12 @@ function predict() {
     
 }
 
-async function fetchWeather(){
-    const response = await fetch("/weather");
-    const weatherData = await response.json();
-    return weatherData;
-}
-
-fetchWeather().then(weatherData => {
+function fetchWeather(){
+  fetch("/weather").then(response => {
+    return response.json();
+  }).then(weatherData => {
     // Temperature from Kelvin to Celcius
-    var tempCelcius = Math.floor(weatherData[0].feels_like-273.16);
+    var tempCelcius = Math.floor(weatherData[0].temp-273.16);
     // Windspeed in MPH
     var windSpeed = Math.floor((weatherData[0].wind_speed) * 2.23694);
     // get year and time
@@ -567,15 +565,17 @@ fetchWeather().then(weatherData => {
     var iconCode = weatherData[0].icon;
     var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
 
+    
     document.getElementById("dateTime").innerHTML = dateMonth;
     document.getElementById("temp").innerHTML = tempCelcius + "&deg";
     document.getElementById("wind").innerHTML = windSpeed + " MPH";
     document.getElementById("humidity").innerHTML = humidity + " %";
     document.getElementById("imageBox").src = iconUrl;
-
-}).catch(err=> {
-    console.log("OOPS", err);
-})
+  
+  }).catch(err=> {
+      console.log("OOPS", err);
+  })
+}
 
 const styles = {
   default: [],
