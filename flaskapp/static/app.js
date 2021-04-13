@@ -121,34 +121,47 @@ function redirectStation() {
     y = document.getElementById("station");
     // save the variable in the tab name    
     sessionStorage.setItem("stationName", y.value);
-    if (location.href != "analytics/information") {
-        // open new window at url detail
-        location.href ="analytics/information";
-
-    } else {
-        selectStation();
-    }    
+    selectStation();
 }
 
 function selectStation(){
 
     // Retrieve data after new page open
     var StationName = sessionStorage.getItem("stationName");
-    console.log(StationName)
+
     // sets the title of the charts
     dets = document.getElementById("Title");
     dets.innerHTML = StationName;
+
+    document.getElementById("realTime").innerHTML = "<div class=\"chartdivs\">\
+                                                      <div class=\"chart2\">\
+                                                        <h2 class=\"chartTitle\"> Daily Averages</h2>\
+                                                        <canvas id=\"chart2\" style=\"float:right; \">\
+                                                        </canvas>\
+                                                      </div>\
+                                                      <div class=\"chart1\">\
+                                                        <h2 class=\"chartTitle\"> Current available data</h2>\
+                                                        <canvas id=\"chart1\" style=\"float:left; width: 50%;\">\
+                                                        </canvas>\
+                                                      </div>\
+                                                      <div class=\"chart3\">\
+                                                        <h2 class=\"chartTitle\"> Hourly Average of Previous day</h2>\
+                                                        <canvas id=\"chart3\" style=\"float:right;\">\
+                                                        </canvas>\
+                                                      </div>\
+                                                      <div class=\"chart4\">\
+                                                        <h2 class=\"chartTitle\"> Today's Hourly Average so Far</h2>\
+                                                        <canvas id=\"chart4\" style=\"float:left;\">\
+                                                        </canvas>\
+                                                      </div>\
+                                                    </div>"
     
     // fecthing the current data 
     fetch("/details/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
 
     }).then(data => 
             {
-            console.log("station: ", data);
-
-
             // create the chart containing the data 
             // rempve the current chart to place new one
             ctx = document.getElementById('chart1').getContext('2d');
@@ -193,13 +206,10 @@ function selectStation(){
     
     // fecthing the average data 
     fetch("/avgdetails/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
 
     }).then(data => 
             {
-            console.log("average: ", data);
-
             // we need to extract the data and put into an array
             available_bikes = [];
             available_stands= [];
@@ -253,13 +263,10 @@ function selectStation(){
     
     // fecthing the average data 
     fetch("/dayavg/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
 
     }).then(data => 
             {
-            console.log("average: ", data);
-
             // we need to extract the data and put into an array
             available_bikes = [];
             available_stands= [];
@@ -314,13 +321,10 @@ function selectStation(){
     
     // fecthing the average data 
     fetch("/pastavg/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
 
     }).then(data => 
             {
-            console.log("average: ", data);
-
             // we need to extract the data and put into an array
             available_bikes = [];
             available_stands= [];
@@ -333,7 +337,6 @@ function selectStation(){
                 time[i] = date.toLocaleTimeString('en-US');
             }
         
-            console.log("Past TIme Points" , time);
             // create the chart containing the data 
             // rempve the current chart to place new one
             ctx = document.getElementById('chart3').getContext('2d');
@@ -405,71 +408,71 @@ function dropHour() {
 }
 
 
-// analytics page chart, overview chart
-function defaultChart() {
-    // fecthing the average data 
-    fetch("/houravg").then(response=> {
-        console.log(response);
-        return response.json();
+// analytics page chart, overview chart (deprecated)
+// function defaultChart() {
+//     // fecthing the average data 
+//     fetch("/houravg").then(response=> {
+//         console.log(response);
+//         return response.json();
 
-    }).then(data => 
-            {
-            console.log("average: " , data);
+//     }).then(data => 
+//             {
+//             console.log("average: " , data);
 
-            // we need to extract the data and put into an array
-            available_bikes = [];
-            available_stands= [];
-            time = [];
+//             // we need to extract the data and put into an array
+//             available_bikes = [];
+//             available_stands= [];
+//             time = [];
             
-            for (i = 0; i < data.length; i++) {
-                available_bikes[i] = data[i].available_bikes;
-                available_stands[i] = data[i].available_bike_stands;
-                date = new Date(data[i].last_update)
-                time[i] = date.toLocaleTimeString('en-US');
-            }
-            // create the chart containing the data 
-            // rempve the current chart to place new one
-            ctx = document.getElementById('myChart').getContext('2d');
-            ctx.clearRect(0, 0, ctx.width, ctx.height);
+//             for (i = 0; i < data.length; i++) {
+//                 available_bikes[i] = data[i].available_bikes;
+//                 available_stands[i] = data[i].available_bike_stands;
+//                 date = new Date(data[i].last_update)
+//                 time[i] = date.toLocaleTimeString('en-US');
+//             }
+//             // create the chart containing the data 
+//             // rempve the current chart to place new one
+//             ctx = document.getElementById('myChart').getContext('2d');
+//             ctx.clearRect(0, 0, ctx.width, ctx.height);
 
 
-            // create line chart
-            myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: time,
-                datasets: [{
-                    label: 'available bikes',
-                    data: available_bikes,
-                    backgroundColor: '#4b778d',
-                    borderColor: 'green',
-                    fill: false,
-                }, {
-                label: "available stands",
-                data: available_stands,
-                borderColor: "red",
-                backgroundColor: "#9e9d89",
-                fill: false,
-            }],
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
+//             // create line chart
+//             myChart = new Chart(ctx, {
+//             type: 'bar',
+//             data: {
+//                 labels: time,
+//                 datasets: [{
+//                     label: 'available bikes',
+//                     data: available_bikes,
+//                     backgroundColor: '#4b778d',
+//                     borderColor: 'green',
+//                     fill: false,
+//                 }, {
+//                 label: "available stands",
+//                 data: available_stands,
+//                 borderColor: "red",
+//                 backgroundColor: "#9e9d89",
+//                 fill: false,
+//             }],
+//             },
+//             options: {
+//                 scales: {
+//                     yAxes: [{
+//                         ticks: {
+//                             beginAtZero: true
+//                         }
+//                     }]
+//                 }
+//             }
+//         });
 
-        }
-    ).catch(err => {
-            console.log("ERROR",err)
-            })
+//         }
+//     ).catch(err => {
+//             console.log("ERROR",err)
+//             })
     
-    Drop();
-}
+//     Drop();
+// }
 
 // get the data from prediction
 function predict() {

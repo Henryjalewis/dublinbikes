@@ -314,7 +314,7 @@ input[type=submit]:hover {
 .my-legend .legend-scale ul {
     padding: 0;
     list-style: none;
-    height: 50px;
+    height: 60px;
 }
 .my-legend .legend-scale ul li {
     display: block;
