@@ -89,7 +89,7 @@ option {
 }
 
 /* Weather styling*/
-
+/* refactored code reference https://csshint.com/html-css-weather-widgets */
 #weather_wrapper{
     border-radius: 1px;
     width: 30px;
