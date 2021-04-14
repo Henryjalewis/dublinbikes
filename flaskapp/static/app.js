@@ -516,13 +516,15 @@ function predict() {
 
              // get the list of times
              // last time of the day is 23:30
-             time[0] = hour + ":" + minutes;
+             hour = hour + 1;
+             time[0] = hour + ":" + "00";
              timeleft = (23 - hour) * 2 ;
              if (minutes == 0) {
                  timeleft = timeleft + 1;
              }
+             minute = 0;
              for (j = 1; j < data.length; j++) {
-                 minutes = (minutes + 30) % 60;
+                 minute = (minute + 30) % 60;
                  if (minutes == 0) {
                      hour = hour + 1
                  }
