@@ -159,14 +159,10 @@ function selectStation(){
 
     // fecthing the current data 
     fetch("/details/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
 
     }).then(data => 
             {
-            console.log("station: ", data);
-
-
             // create the chart containing the data 
             // rempve the current chart to place new one
             ctx = document.getElementById('chart1').getContext('2d');
@@ -211,12 +207,10 @@ function selectStation(){
     
     // fecthing the average data 
     fetch("/avgdetails/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
 
     }).then(data => 
             {
-            console.log("average: ", data);
 
             // we need to extract the data and put into an array
             available_bikes = [];
@@ -271,12 +265,10 @@ function selectStation(){
     
     // fecthing the average data 
     fetch("/dayavg/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
 
     }).then(data => 
             {
-            console.log("average: ", data);
 
             // we need to extract the data and put into an array
             available_bikes = [];
@@ -332,12 +324,10 @@ function selectStation(){
     
     // fecthing the average data 
     fetch("/pastavg/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
 
     }).then(data => 
             {
-            console.log("average: ", data);
 
             // we need to extract the data and put into an array
             available_bikes = [];
@@ -351,7 +341,6 @@ function selectStation(){
                 time[i] = date.toLocaleTimeString('en-US');
             }
         
-            console.log("Past TIme Points" , time);
             // create the chart containing the data 
             // rempve the current chart to place new one
             ctx = document.getElementById('chart3').getContext('2d');
@@ -427,7 +416,6 @@ function predict() {
     dayofWeek = document.getElementById("dayDrop").value;
     list = document.getElementById("hour").value;
     
-    console.log(list);
     arr = list.split(",");
     hour = parseInt(arr[0]);
     minutes = parseInt(arr[1]);
@@ -435,11 +423,9 @@ function predict() {
 
     
     fetch("/predict/" + dayofWeek + "/" + hour + "/" + minutes + "/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
     }).then(data=>
-            {console.log("predicted", data);
-            
+            {            
             
              if(window.mypredChart != null){
                  window.mypredChart.destroy();
@@ -490,10 +476,9 @@ function predict() {
 
     // fetch the rest of the days data
     fetch("/daypredict/" + dayofWeek + "/" + hour + "/" + minutes + "/" + StationName).then(response=> {
-        console.log(response);
         return response.json();
     }).then(data=>
-            {console.log("daypredicted", data);
+            {
 
             // remove the previous chart
              if(window.daychart != null){
@@ -510,9 +495,6 @@ function predict() {
 
              }
 
-             console.log("bikes:", available_bikes);
-             console.log("stands", available_stands);
-
              // get the list of times
              // last time of the day is 23:30
              time[0] = hour + ":" + minutes;
@@ -528,7 +510,6 @@ function predict() {
                  time[j] = hour + ":" + minutes;
 
              }
-             console.log(time);
 
             // create the chart containing the data
             // remove the current chart to place new one
