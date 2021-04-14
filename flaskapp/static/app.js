@@ -137,6 +137,7 @@ function selectStation(){
     dets = document.getElementById("Title");
     dets.innerHTML = StationName;
 
+    // creates the template for the charts
     document.getElementById("realTime").innerHTML = "<div class=\"chartdivs\">\
                                                       <div class=\"chart2\">\
                                                         <h2 class=\"chartTitle\"> Daily averages</h2>\
@@ -154,7 +155,7 @@ function selectStation(){
                                                         </canvas>\
                                                       </div>\
                                                       <div class=\"chart4\">\
-                                                        <h2 class=\"chartTitle\"> Today's Hourly Average so far</h2>\
+                                                        <h2 class=\"chartTitle\"> Today's hourly average so far</h2>\
                                                         <canvas id=\"chart4\" style=\"float:left;\">\
                                                         </canvas>\
                                                       </div>\
@@ -417,6 +418,7 @@ function dropHour() {
 // get the data from prediction
 function predict() {
 
+  // creates the template for the charts
     document.getElementById("pred").innerHTML = "<div class=\"chartdivspred\">\
                                                   <div class=\"chart1\">\
                                                     <h2>Prediction</h2>\
