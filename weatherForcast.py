@@ -47,7 +47,7 @@ while True:
 
    # encoding the data
    categories = np.array(['Clear', 'Clouds', 'Drizzle', 'Mist', 'Rain', 'Snow']).reshape(-1, 1)
-   type_encoder = OneHotEncoder().fit(categories)
+   type_encoder = OneHotEncoder(handle_unknown='ignore').fit(categories)
    type_encoded = type_encoder.transform(np.array(thirtyMinuteDF["main"]).reshape(-1, 1))
    type_encoded = pd.DataFrame(type_encoded.toarray(), columns=[category for category in type_encoder.categories_[0]])
    temp = thirtyMinuteDF.reset_index(drop=True)
