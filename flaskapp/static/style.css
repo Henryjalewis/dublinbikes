@@ -217,14 +217,38 @@ option {
   padding-bottom: 4rem;
 }
 
+
+/* analytics apge styling */
+#real-time-container {
+  background-color: #fafafa;
+  min-height: 100px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 50px;
+}
+
+#prediction-container {
+  background-color: #fafafa;
+  min-height: 100px;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 50px;
+}
+
 .chartdivs{
-    margin: auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas: 
     "box1 box2"
     "box3 box4";
+}
+
+.chartdivspred{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+    "box1 box2";
 }
 
 .chart1{

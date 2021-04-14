@@ -56,7 +56,9 @@
     <div class="content">
 
       <h1>Analytical data on dublin bikes network</h1>
-      <p>Choose a station below to receive detailed analytics</p>
+      <p>Choose a station below to receive detailed analytics, we will remember your last selection when you return to this page</p>
+      <p>When the charts load, hover over them to get interactive information</p>
+      <p>There are two sections, the first provides historical and real-time data. The second allows you to chose a time and date to get predicted data.</p>
       <br>
 
       <div id="Drop">
@@ -65,6 +67,7 @@
         <form action="">
           <label for="station">Choose a Station: </label>
           <select id="station" name="station">
+            <option>loading...</option>
           </select>
           <input type="button" onclick="redirectStation()" value="Get Analytics">
         </form>
@@ -73,64 +76,28 @@
 
       <!-- Station name of selected station -->
       <div >
-        <h1 id="Title"></h1>
+        <h1 id="Title">Loading..</h1>
       </div>
 
-      <!-- Charts displayed -->
-      <div id="realTime">
-        <div class="chartdivs">
-          <div class="chart2">
-            <h2 class="chartTitle"> Daily Averages</h2>
-            <canvas id="chart2" style="float:right; ">
-            </canvas>
-          </div>
-
-          <div class="chart1">
-            <h2 class="chartTitle"> Current available data</h2>
-            <canvas id="chart1" style="float:left; width: 50%;">
-            </canvas>
-          </div>
-
-          <div class="chart3">
-            <h2 class="chartTitle"> Hourly Average of Previous day</h2>
-            <canvas id="chart3" style="float:right;">
-            </canvas>
-          </div>
-
-          <div class="chart4">
-            <h2 class="chartTitle"> Today's Hourly Average so Far</h2>
-            <canvas id="chart4" style="float:left;">
-            </canvas>
-          </div>
+      <!-- Real-time charts displayed -->
+      <div id="real-time-container">
+        <h3>Historical and real-time analytics data:</h3>
+        <div id="realTime">
         </div>
       </div>
     
       <!-- Prediction -->
-      <div id="Pred" style="margin: auto">
+      <div id="prediction-container">
+        <h3>Prediction analytics data:</h3>
         <!-- create a drop down menu of the times that we can predict for -->
         <form action="">
           <select id="dayDrop">
           </select>
-
           <select id="hour">
           </select>
           <input type="button" onclick="predict()" value="Predict">
         </form>
-        <div class="chartdivs">
-          <div class="chart1">
-            <h2>Predicted Results</h2>
-            <canvas id="chart5" style="float:left; width:50%">
-
-            </canvas>
-          </div>
-            
-          <div class="chart2">
-            <h2>Predicted Results</h2>
-            <canvas id="chart6" style="float:left; width:50%">
-
-            </canvas>
-          </div>
-        </div>
+        <div id="pred"></div>
       </div>
 
     </div>
