@@ -410,12 +410,37 @@ function dropDay() {
 function dropHour() {
     minutes = ["00",30];
     
+    daylabel = document.getElementById("dayDrop").value;
+    
+    currentDateLabel = new Date().getDay() - 1;
+    if (currentDateLabel == -1) {
+        currentDateLabel = 6;
+    }
+    
+    
     // make the drop down menu to contain the hours of days
     list = document.getElementById("hour");
     string = "";
-    for (i = 0; i < 24; i++) {
-        for (j = 0; j < 2; j++)
-        string += "<option value='" + i +", "+ minutes[j]+"]}" + "'>" + i +":" + minutes[j] + "</option>"; 
+    
+    if (currentDateLabel == daylabel) {
+        for (i = 0; i < 24; i++) {
+            if (i >= startDate.getHours()) {
+                for (j = 0; j < 2; j++) {
+                    
+                    string += "<option value='" + i +", "+ minutes[j]+"]}" + "'>" + i +":" + minutes[j] + "</option>"; 
+                }
+            }
+        }
+    }
+    else {
+        for (i = 0; i < 24; i++) {
+            
+            for (j = 0; j < 2; j++) {
+
+                string += "<option value='" + i +", "+ minutes[j]+"]}" + "'>" + i +":" + minutes[j] + "</option>"; 
+            }
+            
+        }
     }
     list.innerHTML += string;
 }
