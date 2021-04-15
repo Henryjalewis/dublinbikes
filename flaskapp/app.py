@@ -5,6 +5,7 @@ import pandas as pd
 import json
 import pickle
 import numpy as np
+import datetime
 
 # Get keys from JSON file
 with open('../keys.json') as f:
@@ -196,7 +197,7 @@ def predict(day, hour,minute, name):
     day = int(day)
     hour = int(hour)
     minute = int(minute)
-    print(day)
+
     # need to get the number of station
     query = f'''
     SELECT number, bike_stands from stations
@@ -214,7 +215,6 @@ def predict(day, hour,minute, name):
     df = pd.read_csv("..\Forecast.csv", index_col=0)
 
     data = df[(df["dayOfWeek"] == day) & (df["hour"] == hour) & (df["minute"] == minute)]
-    print(df["dayOfWeek"].unique())
 
     # model predicts available bikes
     predicted_value = model_to_use.predict(data.values)
@@ -231,6 +231,8 @@ def predict(day, hour,minute, name):
 def daypredict(day, hour,minute, name):
     day = int(day)
     hour = int(hour)
+    print(hour)
+
     # need to get the number of station
     query = f'''
     SELECT number, bike_stands from stations
@@ -247,8 +249,16 @@ def daypredict(day, hour,minute, name):
     # load the data
     df = pd.read_csv("..\Forecast.csv", index_col=0)
 
-    data = df[(df["dayOfWeek"] == day) & (df["hour"] >= hour)]
 
+
+
+    if day == datetime.datetime.today().weekday():
+        data = df[(df["dayOfWeek"] == day) & (df["hour"] > (datetime.datetime.today().hour))]
+    else:
+        data = df[(df["dayOfWeek"] == day)]
+
+    print(data["hour"].unique())
+    print(df["hour"].unique())
     # model predicts available bikes
     predicted_values = model_to_use.predict(data.values)
 

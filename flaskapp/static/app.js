@@ -547,17 +547,36 @@ function predict() {
              // get the list of times
              // last time of the day is 23:30
              
-             time[0] = hour + ":" + "00";
              
-             
-             minute = 0;
-             for (j = 1; j < data.length; j++) {
-                 minute = (minute + 30) % 60;
-                 if (minute == 0) {
-                     hour = hour + 1
-                 }
-                 time[j] = hour + ":" + minutes;
+             // get current day
+             currentDateLabel = new Date().getDay() - 1;
+             if (currentDateLabel == -1) {
+                 currentDateLabel = 6;
              }
+        
+             if (currentDateLabel == dayofWeek) {
+                 hour = new Date().getHours() + 1;
+                 time[0] = hour + ":" + "00";
+                 minute = 0;
+                 for (j = 1; j < data.length; j++) {
+                     minute = (minute + 30) % 60;
+                     if (minute == 0) {
+                         hour = hour + 1
+                     }
+                     time[j] = hour + ":" + minute;
+                 }
+            } else {
+                hour = 0;
+                time[0] = hour + ":" + "00";
+                minute = 0;
+                 for (j = 1; j < data.length; j++) {
+                     minute = (minute + 30) % 60;
+                     if (minute == 0) {
+                         hour = hour + 1
+                     }
+                     time[j] = hour + ":" + minute;
+                 }
+            }
             console.log(time);
             // create the chart containing the data
             // remove the current chart to place new one
