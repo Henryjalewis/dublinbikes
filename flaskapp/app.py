@@ -246,8 +246,8 @@ def daypredict(day, hour,minute, name):
 
     # load the data
     df = pd.read_csv("..\Forecast.csv", index_col=0)
-    print(df["dayOfWeek"])
-    data = df[df["dayOfWeek"] == day]
+
+    data = df[(df["dayOfWeek"] == day) & (df["hour"] >= hour)]
 
     # model predicts available bikes
     predicted_values = model_to_use.predict(data.values)

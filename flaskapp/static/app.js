@@ -424,7 +424,7 @@ function dropHour() {
     
     if (currentDateLabel == daylabel) {
         for (i = 0; i < 24; i++) {
-            if (i >= startDate.getHours()) {
+            if (i > startDate.getHours()) {
                 for (j = 0; j < 2; j++) {
                     
                     string += "<option value='" + i +", "+ minutes[j]+"]}" + "'>" + i +":" + minutes[j] + "</option>"; 
@@ -546,8 +546,9 @@ function predict() {
 
              // get the list of times
              // last time of the day is 23:30
-             hour = 0;
+             
              time[0] = hour + ":" + "00";
+             
              
              minute = 0;
              for (j = 1; j < data.length; j++) {
