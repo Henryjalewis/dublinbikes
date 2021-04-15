@@ -431,6 +431,7 @@ function dropHour() {
                 }
             }
         }
+        list.innerHTML = string;
     }
     else {
         for (i = 0; i < 24; i++) {
@@ -441,8 +442,9 @@ function dropHour() {
             }
             
         }
+        list.innerHTML = string;
     }
-    list.innerHTML += string;
+    
 }
 
 // get the data from prediction
@@ -577,7 +579,7 @@ function predict() {
                      time[j] = hour + ":" + minute;
                  }
             }
-            console.log(time);
+
             // create the chart containing the data
             // remove the current chart to place new one
             canvas = document.getElementById('chart6');
