@@ -393,10 +393,11 @@ function dropDay() {
     list = document.getElementById("dayDrop");
     startDate = new Date();
     options = "";  
-    for (i = 0; i <=5 ; i++) {
+    for (i = 0; i <5 ; i++) {
         var currentDate = new Date();
         currentDate.setDate(startDate.getDate() + i);
-        options += "<option value='" + currentDate.getDay() + "'>" + currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "</option>"; 
+        day = (currentDate.getDay() - 1) % 7;
+        options += "<option value='" + day + "'>" + currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "</option>"; 
     }
     list.innerHTML += options;
 }
