@@ -87,30 +87,27 @@ def dynamic_bikes():
 def details(name):
 
   # use the name in a query
-  print(name)
 
-  query = f"""    
+  query = """    
   select available_bike_stands, available_bikes, max(last_update) from available
   join stations on available.number = stations.number
-  where stations.name = '{name}'"""
-  print(query)
+  where stations.name = '{""" + name + "}'"
+
   # use the engine connection to query
   AV = pd.read_sql_query(query, engine)
 
-  print(AV)
   return AV.to_json(orient='records')
 
 # get the average for last few hours Get the day average ofet hestation over the days
 @app.route("/avgdetails/<name>")
 def avgdetails(name):
   # use the name in a query
-  print(name)
 
-  query = f"""    
+  query = """    
   select available_bike_stands, available_bikes, last_update from available
   join stations on available.number = stations.number
-  where stations.name = '{name}'"""
-  print(query)
+  where stations.name = '{""" + name + "}'"
+
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
@@ -122,15 +119,15 @@ def avgdetails(name):
 @app.route("/dayavg/<name>")
 def dayavg(name):
   # use the name in a query
-  print(name)
 
-  query = f"""    
+
+  query = """    
   select available_bike_stands, available_bikes, last_update from available
   join stations on available.number = stations.number
-  where stations.name = '{name}'
+  where stations.name = '{""" + name + """}'
   and day(last_update) = Day(curdate())
   and month(last_update) = Month(curdate())"""
-  print(query)
+
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
@@ -148,7 +145,7 @@ def allavg():
   where Day(last_update) = Day(curdate())
   and month(last_update) = Month(subdate(curdate(),1))
   """
-  print(query)
+
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
@@ -162,14 +159,14 @@ def allavg():
 def yesterdayavg(name):
   # use the name in a query
   # query for yesterday's data
-  query = f"""    
+  query = """    
   select available_bike_stands, available_bikes, last_update from available
   join stations on available.number = stations.number
-  where stations.name = '{name}'
+  where stations.name = '{""" + name + """}'
   and Day(last_update) = Day(subdate(curdate(),1))
   and month(last_update) = Month(subdate(curdate(),1))
   """
-  print(query)
+
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
@@ -198,10 +195,10 @@ def predict(day, hour,minute, name):
     minute = int(minute)
 
     # need to get the number of station
-    query = f'''
+    query = """
     SELECT number, bike_stands from stations
-    where name = '{name}'
-    '''
+    where name = '{""" + name + """}'
+    """
     df = pd.read_sql(query, engine)
     number = df.values[0][0]
     bike_stands = df.values[0][1]
@@ -213,7 +210,6 @@ def predict(day, hour,minute, name):
     # load the data
     df = pd.read_csv("..\Forecast.csv", index_col=0)
     data = df[(df["dayOfWeek"] == day) & (df["hour"] == hour) & (df["minute"] == minute)]
-    print(data)
 
     # model predicts available bikes
     predicted_value = model_to_use.predict(data.values)
@@ -231,10 +227,10 @@ def daypredict(day, hour,minute, name):
     day = int(day)
     hour = int(hour)
     # need to get the number of station
-    query = f'''
+    query = """
     SELECT number, bike_stands from stations
-    where name = '{name}'
-    '''
+    where name = '{""" + name + """}'
+    """
     df = pd.read_sql(query, engine)
     number = df.values[0][0]
     bike_stands = df.values[0][1]
@@ -245,7 +241,7 @@ def daypredict(day, hour,minute, name):
 
     # load the data
     df = pd.read_csv("..\Forecast.csv", index_col=0)
-    print(df["dayOfWeek"])
+
     data = df[(df["dayOfWeek"] == day) & (df["hour"] > hour)]
 
     # model predicts available bikes
@@ -255,7 +251,7 @@ def daypredict(day, hour,minute, name):
     available_stands = bike_stands - available_bikes
     # convert to dataframe
     df = pd.DataFrame(zip(available_bikes, available_stands), columns=["bikes", "stands"])
-    print(df)
+
     # pass on as json
     return df.to_json(orient='records')
 
