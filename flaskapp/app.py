@@ -88,30 +88,25 @@ def dynamic_bikes():
 def details(name):
 
   # use the name in a query
-  print(name)
 
   query = f"""    
   select available_bike_stands, available_bikes, max(last_update) from available
   join stations on available.number = stations.number
   where stations.name = '{name}'"""
-  print(query)
   # use the engine connection to query
   AV = pd.read_sql_query(query, engine)
 
-  print(AV)
   return AV.to_json(orient='records')
 
 # get the average for last few hours Get the day average ofet hestation over the days
 @app.route("/avgdetails/<name>")
 def avgdetails(name):
   # use the name in a query
-  print(name)
 
   query = f"""    
   select available_bike_stands, available_bikes, last_update from available
   join stations on available.number = stations.number
   where stations.name = '{name}'"""
-  print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
@@ -123,7 +118,6 @@ def avgdetails(name):
 @app.route("/dayavg/<name>")
 def dayavg(name):
   # use the name in a query
-  print(name)
 
   query = f"""    
   select available_bike_stands, available_bikes, last_update from available
@@ -131,7 +125,6 @@ def dayavg(name):
   where stations.name = '{name}'
   and day(last_update) = Day(curdate())
   and month(last_update) = Month(curdate())"""
-  print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
@@ -149,7 +142,6 @@ def allavg():
   where Day(last_update) = Day(curdate())
   and month(last_update) = Month(subdate(curdate(),1))
   """
-  print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
@@ -170,7 +162,6 @@ def yesterdayavg(name):
   and Day(last_update) = Day(subdate(curdate(),1))
   and month(last_update) = Month(subdate(curdate(),1))
   """
-  print(query)
   # use the engine connection to query
   df = pd.read_sql_query(query, engine)
   # get the mean of the days
@@ -231,7 +222,6 @@ def predict(day, hour,minute, name):
 def daypredict(day, hour,minute, name):
     day = int(day)
     hour = int(hour)
-    print(hour)
 
     # need to get the number of station
     query = f'''
@@ -257,8 +247,6 @@ def daypredict(day, hour,minute, name):
     else:
         data = df[(df["dayOfWeek"] == day)]
 
-    print(data["hour"].unique())
-    print(df["hour"].unique())
     # model predicts available bikes
     predicted_values = model_to_use.predict(data.values)
 
