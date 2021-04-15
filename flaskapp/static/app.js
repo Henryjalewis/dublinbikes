@@ -102,15 +102,15 @@ function initMap() {
 }
 
 function Drop() {
+  // default stationName
+  if (sessionStorage.getItem("stationName") == null) {
+    sessionStorage.setItem("stationName", "DAME%20STREET")
+    selectStation(); dropDay(); dropHour();
+  }
   x = document.getElementById("station");
   fetch("/stations").then(response=> {
     return response.json();
   }).then (data => {
-    // create drop down station names
-    if (sessionStorage.getItem("stationName") == null) {
-      sessionStorage.setItem("stationName", data[0].name)
-      selectStation(); dropDay(); dropHour();
-    }
     options = "";
     for (i = 0; i < data.length; i++) {
         options += "<option value='" + data[i].name + "'>" + data[i].name + "</option>"; 
@@ -135,7 +135,7 @@ function selectStation(){
 
     // sets the title of the charts
     dets = document.getElementById("Title");
-    dets.innerHTML = StationName;
+    dets.innerHTML = unescape(StationName);
 
     // creates the template for the charts
     document.getElementById("realTime").innerHTML = "<div class=\"chartdivs\">\
