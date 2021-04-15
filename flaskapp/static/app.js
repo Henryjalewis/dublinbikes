@@ -396,9 +396,13 @@ function dropDay() {
     for (i = 0; i <5 ; i++) {
         var currentDate = new Date();
         currentDate.setDate(startDate.getDate() + i);
-        day = (currentDate.getDay() - 1) % 7;
+        day = ((currentDate.getDay() - 1) % 7);
+        if (day == -1) {
+            day = 6;
+        }
         options += "<option value='" + day + "'>" + currentDate.getDate() + "/" + (currentDate.getMonth() + 1) + "</option>"; 
     }
+
     list.innerHTML += options;
 }
 
@@ -517,22 +521,18 @@ function predict() {
 
              // get the list of times
              // last time of the day is 23:30
-             hour = hour + 1;
+             hour = 0;
              time[0] = hour + ":" + "00";
-             timeleft = (23 - hour) * 2 ;
-             if (minutes == 0) {
-                 timeleft = timeleft + 1;
-             }
+             
              minute = 0;
              for (j = 1; j < data.length; j++) {
                  minute = (minute + 30) % 60;
-                 if (minutes == 0) {
+                 if (minute == 0) {
                      hour = hour + 1
                  }
                  time[j] = hour + ":" + minutes;
-
              }
-
+            console.log(time);
             // create the chart containing the data
             // remove the current chart to place new one
             canvas = document.getElementById('chart6');

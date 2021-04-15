@@ -247,7 +247,7 @@ def daypredict(day, hour,minute, name):
     # load the data
     df = pd.read_csv("..\Forecast.csv", index_col=0)
     print(df["dayOfWeek"])
-    data = df[(df["dayOfWeek"] == day) & (df["hour"] > hour)]
+    data = df[df["dayOfWeek"] == day]
 
     # model predicts available bikes
     predicted_values = model_to_use.predict(data.values)
@@ -256,7 +256,6 @@ def daypredict(day, hour,minute, name):
     available_stands = bike_stands - available_bikes
     # convert to dataframe
     df = pd.DataFrame(zip(available_bikes, available_stands), columns=["bikes", "stands"])
-    print(df)
     # pass on as json
     return df.to_json(orient='records')
 
